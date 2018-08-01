@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Lab 3: Load Balancing, Monitoring and Persistence &#8212; LTM Beginning Implementation Agility 2018 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head><body>
+  <div class="container-fluid">
+  <div class="row corp-header">
+    <div class="container corp-header">
+      <div class="container corp-menu">
+        <ul>
+          <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+          <li><a href="https://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com">Community</a></li>
+          <li><a href="https://github.com/F5Networks">GitHub</a></li>
+          <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pageHeader">
+    <div class="container stat">
+      <div class="col-xs-12 stat">
+        <a class="internalLink" href="https://f5.com">
+          <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+        </a>
+        <ul id="MainMenu" class="main-menu">
+          <li>
+            <a href="#">Products
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ProductsSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third"><span class="a-mm-h">BIG-IP Controllers</span>
+                    <ul>
+                      <li><a href="/products/connectors/cf-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Cloud Foundry</a></li>
+                      <li><a href="/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Kubernetes/OpenShift</a></li>
+                      <li><a href="/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary right now, we have them all listed>
+                      <span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></span><-->
+                    <span class="a-mm-h">Application Services Proxy</span>
+                    <ul>
+                      <li><a href="/products/asp/latest" data-link-type="Nav: Mega">F5 Application Services Proxy</a></li>
+                      <li><a href="/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5-kube-proxy</a></li>
+                      <li><a href="/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 ASP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary>
+                    <span class="seemore"><a href="/products/asp/latest">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">OpenStack</span>
+                    <ul>
+                      <li><a href="/products/openstack/agent/latest" data-link-type="Nav: Mega">F5 Agent - OpenStack Neutron</a></li>
+                      <li><a href="/products/openstack/lbaasv2-driver/latest" data-link-type="Nav: Mega">F5 Driver - OpenStack LBaaS</a></li>
+                      <li><a href="/products/openstack/heat-plugins/latest" data-link-type="Nav: Mega">F5 Plugins - OpenStack Heat</a></li>
+                     </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Orchestration Templates</span>
+                  <ul>
+                    <li><a href="https://github.com/F5Networks/f5-aws-cloudformation" target="_blank">F5 Templates for AWS CloudFormation</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-azure-arm-templates" target="_blank">F5 Templates for Azure ARM</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-google-gdm-templates" target="_blank">F5 Templates for Google Cloud Deployment Manager</a> </li>
+                    <li><a href="/products/templates/openstack-heat/latest" data-link-type="Nav: Mega">F5 Templates for OpenStack Heat</a></li>
+                  </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Cloud & Container Integrations
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ContainersSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                    <!--- HIDE, ALL ARE CURRENTLY DISPLAYED>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/containers/latest/">See all </a></span>
+                    --->
+                  <li class="third"><span class="a-mm-h">Clouds</span>
+                    <ul>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">AWS</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Azure</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Google Cloud</a></li>
+                      <li><a href="/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                    </ul>
+                    <!-- unnecessary right now>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span>
+                    <-->
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Containers</span>
+                    <ul>
+                      <li><a href="/containers/latest/cloudfoundry/" data-link-type="Nav: Mega">Cloud Foundry</a> </li>
+                      <li><a href="/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                      <li><a href="/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                      <li><a href="/containers/latest/openshift/" data-link-type="Nav: Mega">OpenShift</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Resources
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+            <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third">
+                    <span class="a-mm-h">Downloads</span>
+                    <ul>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks-asp" class="internalLink">Docker Store</a></li>
+                    </ul>
+                    <span class="a-mm-h">OpenSource</span>
+                  <ul>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">F5Networks on GitHub</a></li>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5DevCentral" class="internalLink">F5DevCentral on GitHub</a></li>
+                  </ul>
+                    </li>
+                  <li class="divider"></li>
+                  <li class="third">
+                  <span class="a-mm-h">Training & Labs</span>
+                   <ul>
+                  <li><p>Learn how to get the most out of the F5 platform</p></li>
+                    <li><a href="/training/community">Community</a></li>
+                  </ul>
+                  </li>
+                  <li class="divider"></li>
+                  
+                  <li class="third">
+                    <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                    <ul>
+                      <li>
+                        <p>Get up to speed with free self-paced courses</p>
+                      </li>
+                    </ul>
+                    <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                    <ul>
+                      <li>
+                        <p>Join the community of 250,000+ technical peers</p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container-fluid -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebartoc">
+         <h4><a href="../">LTM Beginning Implementation Agility 2018 1.0</a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">Lab 3: Load Balancing, Monitoring and Persistence</a><ul>
+<li><a class="reference internal" href="#ratio-load-balancing">Ratio Load Balancing</a></li>
+<li><a class="reference internal" href="#priority-groups-lab">Priority Groups Lab</a></li>
+<li><a class="reference internal" href="#monitor-labs">Monitor Labs</a></li>
+<li><a class="reference internal" href="#content-monitors">Content Monitors</a></li>
+<li><a class="reference internal" href="#monitor-testing">Monitor Testing</a></li>
+<li><a class="reference internal" href="#persistence-labs">Persistence Labs</a></li>
+<li><a class="reference internal" href="#simple-source-address-persistence">Simple (Source Address) Persistence</a></li>
+<li><a class="reference internal" href="#cookie-persistence-cookie-insert">Cookie Persistence (Cookie Insert)</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Agility 2018</a> &gt; <a href="../intro.html">LTM Beginning Implementation Agility 2018</a>
+          <span class="right"><a href="../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="lab-3-load-balancing-monitoring-and-persistence">
+<h1>Lab 3: Load Balancing, Monitoring and Persistence<a class="headerlink" href="#lab-3-load-balancing-monitoring-and-persistence" title="Permalink to this headline">¶</a></h1>
+<p>Objectives:</p>
+<ul class="simple">
+<li>Configure and review Ratio load balancing</li>
+<li>Build and test priority groups</li>
+<li>Build a content monitor that looks for a receive string and requires
+authentication</li>
+<li>Build and review simple (source IP) persistence and cookie
+persistence.</li>
+</ul>
+<div class="section" id="ratio-load-balancing">
+<h2>Ratio Load Balancing<a class="headerlink" href="#ratio-load-balancing" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to Local <strong>Traffic &gt;&gt; Pools</strong> and select <strong>www_pool</strong> and then
+<strong>Members</strong> from the top bar or you could click on the <strong>Members</strong>
+link in the Pool List screen.</li>
+</ol>
+<p><a class="reference internal" href="../_images/image15.png"><img alt="image0" src="../_images/image15.png" style="width: 5.35046in; height: 1.60014in;" /></a></p>
+<ol class="loweralpha simple">
+<li>Note: When we created the pool, we performed all of our
+configurations on one page, but when we modify a pool the
+<strong>Resource</strong> information is under the <strong>Members</strong> tab</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li>Under <strong>Load</strong> <strong>Balancing</strong> section<ol class="loweralpha" start="2">
+<li>Change the <strong>Load</strong> <strong>Balancing</strong> <strong>Method</strong> to <strong>Ratio (Member)</strong></li>
+<li>As you look at the drop-down menu, notice most load balancing
+methods have two options: (Node) or (Member). Remember the
+difference?</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image22.png"><img alt="image1" src="../_images/image22.png" style="width: 6.21239in; height: 3.09182in;" /></a></p>
+<ol class="loweralpha simple" start="4">
+<li>Don’t forget the <strong>Update</strong> button</li>
+<li>Then under <strong>Current Members</strong><ol class="lowerroman">
+<li>Select the first member in the pool <strong>10.1.20.11:80</strong>.</li>
+<li>Under the <strong>Configuration</strong> section<ol class="arabic">
+<li>Change the <strong>Ratio</strong> of the member to 3</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image32.png"><img alt="image2" src="../_images/image32.png" style="width: 4.29412in; height: 4.16052in;" /></a></p>
+<ol class="loweralpha simple" start="6">
+<li>Select the <strong>Update</strong> button</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li>Verification<ol class="loweralpha" start="7">
+<li>Check the pool statistics by selecting <strong>Statistics</strong> on the top
+bar, if you are still in <strong>Local Traffic &gt;&gt; Pools</strong>, or by going
+to <strong>Statistics &gt;&gt; Module Statistics &gt;&gt; Local Traffic</strong> and
+selecting <strong>Pool</strong> from <strong>Statistics Type</strong>.</li>
+<li>Reset the statistics for your <strong>www_pool</strong> pool by checking the
+boxes next to the pool members and hitting the <strong>Reset</strong> button<ol class="lowerroman" start="3">
+<li>Browse to your <strong>www_vs</strong> <strong>(10.1.10.100)</strong> virtual server</li>
+<li>Refresh the browser screen several times (use “&lt;ctrl&gt;” F5)</li>
+<li>Select the <strong>Refresh</strong> button on the <strong>Statistics</strong> screen</li>
+<li>How many total connections has each member taken?</li>
+<li>Is the ratio of connections correct between the members?</li>
+</ol>
+</li>
+<li>Now go back and put the pool load balancing method back to Round
+Robin<ol class="lowerroman" start="8">
+<li>Reset the statistics</li>
+<li>Refresh the virtual server page several times</li>
+<li>Refresh the statistics</li>
+<li>Does the ratio setting have any impact now?</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="priority-groups-lab">
+<h2>Priority Groups Lab<a class="headerlink" href="#priority-groups-lab" title="Permalink to this headline">¶</a></h2>
+<p>Let’s look at priority groups. In this scenario we will treat the
+<strong>.13</strong> server as if it were in a disaster recovery site that can be
+reached over a backhaul. The customer would like to maintain at least
+two members in the pool for redundancy and load. They would find this
+beneficial to allow connections to proceed during a maintenance window
+or during an outage.</p>
+<ol class="arabic simple">
+<li>Go to <strong>Local Traffic &gt;&gt; Pools &gt;&gt; www_pool</strong><ol class="loweralpha" start="10">
+<li>Select the <strong>Members</strong> tab.<ol class="lowerroman" start="12">
+<li>Set the <strong>Load Balancing Method</strong> back to <strong>Round Robin</strong></li>
+<li>Set the <strong>Priority Group Activation</strong> to <strong>Less than …</strong>
+<strong>2</strong> Available Members.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image42.png"><img alt="image3" src="../_images/image42.png" style="width: 7.87256in; height: 2.76852in;" /></a></p>
+<ol class="loweralpha simple" start="11">
+<li>Don’t forget to hit the <strong>Update</strong> button</li>
+<li>Select the pool members <strong>10.128.20.11</strong> and <strong>10.128.20.12</strong> and set
+their <strong>Priority Group</strong> to <strong>2</strong>.<ol class="lowerroman" start="14">
+<li>This will allow you to change the priority on that particular
+member.</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image51.png"><img alt="image4" src="../_images/image51.png" style="width: 3.87915in; height: 3.93519in;" /></a></p>
+<ol class="arabic" start="4">
+<li><p class="first">Review your settings and let’s see how load balancing reacts now</p>
+<ol class="loweralpha simple" start="13">
+<li>Select the <strong>Statistics</strong> tab.</li>
+<li>Reset the pool statistics.</li>
+<li>Browse to your virtual server and refresh several times.</li>
+<li>Refresh your statistics.</li>
+<li>Are all members taking connections?</li>
+<li>Which member isn’t taking connections?</li>
+</ol>
+</li>
+<li><p class="first">Let’s simulate a maintenance window or an outage by disabling a pool
+member in the highest priority group (2).</p>
+<p><strong>NOTE:</strong> F5 ranks priority from low number to high number. This
+means, a priority of 1 has a lower priority than 2, and onwards.</p>
+<p>This should cause priority group activation to kick in, since the
+number of active members in our high priority group has dropped below
+one.</p>
+</li>
+<li><p class="first">Select the member in the Priority Group 2 and Disable that pool
+member.</p>
+<ol class="loweralpha simple" start="19">
+<li>Select the <strong>Disable</strong> button</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image61.png"><img alt="image5" src="../_images/image61.png" style="width: 7.75885in; height: 2.74074in;" /></a></p>
+<ol class="loweralpha simple" start="20">
+<li>The status indicator now goes to black, indicating the member has
+been disabled</li>
+</ol>
+<ol class="arabic simple" start="7">
+<li>Once again, select <strong>Statistics</strong>, reset the pool statistics, browse
+to the virtual server and see which pool members are taking hits now.</li>
+</ol>
+<p>Once you are done testing re-enable your disabled pool member.</p>
+</div>
+<div class="section" id="monitor-labs">
+<h2>Monitor Labs<a class="headerlink" href="#monitor-labs" title="Permalink to this headline">¶</a></h2>
+<p>Objective:</p>
+<ul class="simple">
+<li>Build a default monitor for nodes</li>
+<li>Build a content monitor for your pool</li>
+</ul>
+<p>Default Monitors</p>
+<ol class="arabic simple">
+<li>Go to <strong>Local Traffic &gt;&gt; Nodes</strong>, note the status of the nodes.<ol class="loweralpha" start="21">
+<li>Note that the nodes exist in this table, even though they were
+never specifically configured in the Node section of the GUI. Each
+time a unique IP address is placed in a pool a corresponding node
+entry is added and assigned the default monitor (if any).</li>
+<li>Select the <strong>Default Monitors</strong> tab.</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image71.png"><img alt="image6" src="../_images/image71.png" style="width: 4.2837in; height: 2.06685in;" /></a></p>
+<ol class="loweralpha simple" start="23">
+<li>Notice we have several options. For nodes you will want a generic
+monitor, so we will choose <strong>icmp</strong>.</li>
+<li>Select <strong>icmp</strong> from the <strong>Available</strong> box and hit <a class="reference internal" href="../_images/image81.png"><img alt="image7" src="../_images/image81.png" style="width: 0.32292in; height: 0.27083in;" /></a> to place
+it in the <strong>Active</strong> box.</li>
+<li>Click on the <strong>Update</strong> button to finalize your changes.</li>
+</ol>
+<ol class="arabic simple" start="8">
+<li>Select <strong>Node List</strong> or <strong>Statistics</strong> from the top tab.<ol class="loweralpha" start="26">
+<li>What are your node statuses?</li>
+</ol>
+</li>
+<li>Select <strong>Statistics &gt;&gt; Module Statistics &gt;&gt; Local Traffic</strong><ol class="loweralpha">
+<li>What are the statuses of your nodes, pool and virtual server?</li>
+</ol>
+</li>
+</ol>
+<p>For those of you who did the <strong>FQDN Pool</strong> extra credit lab, you will
+notice your FQDN in the node list. The status should be <strong>Available</strong>
+(Green) even though there wasn’t a monitor. This is because a good
+status indicates the BIG-IP successfully queried the DNS server for the
+name. Click on the FQDN node to see additional options, such as query
+interval.</p>
+</div>
+<div class="section" id="content-monitors">
+<h2>Content Monitors<a class="headerlink" href="#content-monitors" title="Permalink to this headline">¶</a></h2>
+<p>The default monitor simply tells us the IP address is accessible, but we
+really don’t know the status of the particular application the node
+supports. We are now going to create a monitor to specifically test the
+application we are interested in. We are going to check our web site and
+its basic authentication capabilities.</p>
+<ol class="arabic simple" start="10">
+<li>Browse to <strong>http://10.1.10.100</strong> and on the web page select the
+<strong>Basic Authentication</strong> link&nbsp;under <strong>Authentication Examples</strong>.<ol class="loweralpha" start="2">
+<li>User: <strong>user.1</strong></li>
+<li>Password: <strong>password</strong></li>
+<li>You could use text from this page or text within the source code
+to test for availability. You could also use HTTP statuses or
+header information. You will be looking for the HTTP status
+“<strong>200 OK</strong>” as your receive string to determine
+availability.</li>
+<li>Note the URI is <strong>/basic</strong>. You will need this for your monitor.</li>
+</ol>
+</li>
+<li>Select <strong>Local Traffic &gt;&gt; Monitor</strong> on the side-bar and select the
+plus (<strong>+</strong>) sign or <strong>Create</strong></li>
+</ol>
+<p><a class="reference internal" href="../_images/image91.png"><img alt="image8" src="../_images/image91.png" style="width: 6.32551in; height: 4.12037in;" /></a></p>
+<ol class="loweralpha simple" start="6">
+<li>Now we can create a monitor to check the content of our web page to
+ensure things are running properly.<ol class="lowerroman" start="15">
+<li><strong>Name</strong>: www_test</li>
+<li><strong>Type</strong>: HTTP</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image101.png"><img alt="image9" src="../_images/image101.png" style="width: 3.59401in; height: 4.75926in;" /></a></p>
+<ol class="loweralpha simple" start="7">
+<li>Once you have selected you parent <strong>(Type)</strong> monitor, you can access
+the <strong>Configuration</strong> section<ol class="lowerroman" start="17">
+<li><strong>Send String</strong>: Enter the command to retrieve the page you
+want “<strong>GET /basic/rn</strong>” (no quotes)</li>
+<li>In the Receive String box put “<strong>200 OK</strong>” (no quotes)<ol class="arabic" start="2">
+<li><strong>NOTE</strong>: The receive string is not case sensitive.</li>
+</ol>
+</li>
+<li>Enter <strong>user.1</strong>/<strong>password</strong> for the <strong>Username</strong> and
+<strong>Password</strong></li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image112.png"><img alt="image10" src="../_images/image112.png" style="width: 3.50469in; height: 5.71698in;" /></a></p>
+<ol class="loweralpha simple" start="8">
+<li>Click <strong>Finish</strong> and you will be taken back to <strong>Local Traffic &gt;&gt;
+Monitors</strong></li>
+</ol>
+<ol class="arabic" start="12">
+<li><p class="first">Where is your new Monitor?</p>
+<ol class="lowerroman simple">
+<li><a class="reference internal" href="../_images/image122.png"><img alt="image11" src="../_images/image122.png" style="width: 1.13333in; height: 0.66667in;" /></a><strong>Hint:</strong> Check the lower right hand corner of the
+Monitors list. Here you can go to the next page or view all
+Monitors</li>
+</ol>
+<ol class="loweralpha simple" start="10">
+<li>You can change the number of records displayed per page in
+S<strong>ystem &gt;&gt; Preferences</strong></li>
+</ol>
+</li>
+<li><p class="first">Go to <strong>Local Traffic &gt;&gt; Pools &gt;&gt; www_pool</strong> and choose
+<strong>Properties</strong> from the top bar</p>
+<ol class="loweralpha simple" start="11">
+<li>Remove the <strong>http</strong> monitor from the Active box.</li>
+<li>Select the <strong>www_test</strong> monitor from the Available monitor’s
+window in the <strong>Configuration</strong> section and move it to the Active
+window.</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image131.png"><img alt="image12" src="../_images/image131.png" style="width: 4.83442in; height: 3.99074in;" /></a></p>
+<ol class="arabic simple" start="14">
+<li>Once you have selected your parent (Type) monitor, you can access
+the <strong>Configuration</strong> section<ol class="loweralpha" start="13">
+<li>Select <strong>Statistics</strong> from the tabs.</li>
+<li>What is the status of the pool and its members?</li>
+</ol>
+</li>
+<li>Go to <strong>Local Traffic &gt;&gt; Virtual Servers</strong>. What is the status of
+your virtual server?<ol class="loweralpha" start="15">
+<li>Browse to your <strong>www_vs</strong> virtual server. Which members are
+taking traffic?</li>
+<li>Just for fun reverse the monitor. Now when <strong>200 OK</strong> is returned
+it indicates the server is not responding successfully. You can
+see where this would be useful if you were looking for a 404 (bad
+page) response.</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="monitor-testing">
+<h2>Monitor Testing<a class="headerlink" href="#monitor-testing" title="Permalink to this headline">¶</a></h2>
+<p>There is now the ability to test monitors. This is tremendously helpful
+as you no longer need to create monitors and add them to false objects
+on the BIG-IP. The functionality is now built in to the monitor itself
+to be less invasive on your infrastructure, and less time consuming all
+together.</p>
+<ol class="arabic simple" start="16">
+<li>Go to <strong>Local Traffic &gt;&gt; Pools &gt;&gt; www_pool</strong><ol class="loweralpha" start="17">
+<li>Under <strong>Configuration</strong>, move the active monitor to <strong>Available</strong></li>
+</ol>
+</li>
+<li>Go to <strong>Monitors</strong> and click on <strong>http</strong><ol class="loweralpha" start="18">
+<li>Click the <strong>Test</strong> tab</li>
+<li>Under <strong>Address</strong> plug in <strong>10.1.20.11</strong> and in the port field
+plug in <strong>80</strong></li>
+<li>Click <strong>Test</strong></li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image141.png"><img alt="image13" src="../_images/image141.png" style="width: 5.77731in; height: 3.02399in;" /></a></p>
+<ol class="loweralpha simple" start="21">
+<li>Go back to <strong>Local Traffic &gt;&gt; Pools &gt;&gt; www_pool</strong><ol class="lowerroman" start="20">
+<li>Once here, move <strong>http</strong> back to <strong>Active</strong></li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="persistence-labs">
+<h2>Persistence Labs<a class="headerlink" href="#persistence-labs" title="Permalink to this headline">¶</a></h2>
+<p>In this lab we will configure a couple types of persistence and view
+their behavior. For persistence, profiles will have to be created and
+attached to our virtual server.</p>
+<p>Lab Requirements:</p>
+<ul class="simple">
+<li>Prior to beginning the lab verify your <strong>www_pool</strong> has been set to
+the following parameters:<ul>
+<li><strong>Load Balancing Method</strong>: Round Robin</li>
+<li><strong>Priority Group Activation</strong>: Disable<ul>
+<li>The members <strong>Ratio</strong> and <strong>Priority</strong> <strong>Group</strong> mean nothing
+since we aren’t using Ratio load balancing and Priority Groups
+are disabled.</li>
+</ul>
+</li>
+<li>Hit <strong>Update</strong></li>
+<li>Hit your virtual server several times, you should see all 3
+servers respond.</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="simple-source-address-persistence">
+<h2>Simple (Source Address) Persistence<a class="headerlink" href="#simple-source-address-persistence" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Local</strong> <strong>Traffic &gt;&gt; Profiles</strong> and select the
+<strong>Persistence</strong> tab.<ol class="loweralpha">
+<li>From the <strong>Persistence Profiles</strong> screen select the <strong>Create</strong>
+button.</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image151.png"><img alt="image14" src="../_images/image151.png" style="width: 6.99661in; height: 3.42593in;" /></a></p>
+<ol class="loweralpha simple" start="2">
+<li>At the <strong>New Persistence Profile</strong> screen enter:<ol class="lowerroman">
+<li><strong>Name</strong>: my-src-persist</li>
+<li><strong>Persistence</strong> <strong>Type</strong>: Source Address Affinity</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image16.png"><img alt="image15" src="../_images/image16.png" style="width: 4.75782in; height: 3.71296in;" /></a></p>
+<ol class="loweralpha simple" start="3">
+<li>This will add the <strong>Configuration</strong> section to the <strong>General</strong>
+<strong>Properties</strong> section.<ol class="lowerroman" start="3">
+<li>Note the parent profile.</li>
+</ol>
+</li>
+<li>In the <strong>Configuration</strong> section, set the<ol class="lowerroman" start="4">
+<li><strong>Timeout</strong>: 60 seconds</li>
+<li><strong>Prefix Length</strong>: None<ol class="arabic">
+<li>This is the default and is a /32 prefix (255.255.255.255
+mask).</li>
+<li>Each new IP address will create a new persistence record.</li>
+</ol>
+</li>
+<li><strong>Hint</strong>: You can’t change these settings until you have checked
+the Custom box. This prevents unwanted or unauthorized changes
+from within the GUI, without explicitly allowing it. Also, it
+allows you to know what has changed from the default settings.</li>
+</ol>
+</li>
+<li>You have just created your first custom Profile.<ol class="lowerroman" start="7">
+<li>Note the check box for your new custom profile isn’t grayed out
+and can be selected to allow you to delete the profile if
+desired.</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li>Now let’s attach our new profile to the virtual server.<ol class="loweralpha" start="6">
+<li>Go to <strong>Local Traffic &gt;&gt; Virtual Server</strong> and ….<ol class="lowerroman" start="8">
+<li>Select <strong>www_vs</strong> and the <strong>Resources</strong> tab or ….</li>
+<li>Take the shortcut directly to the <strong>Resources</strong> of the
+virtual server. (Can you find it?)</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><strong>Note:</strong> When we created the Virtual Server, everything was on a single
+page. We find when we return to modify the Virtual Server the Properties
+and Resources are on different pages.</p>
+<ol class="loweralpha simple" start="7">
+<li>Set the <strong>Default Persistence Profile</strong> to <strong>my-src-persist</strong>.</li>
+</ol>
+<p><a class="reference internal" href="../_images/image17.png"><img alt="image16" src="../_images/image17.png" style="width: 5.93099in; height: 3.31482in;" /></a></p>
+<ol class="loweralpha" start="8">
+<li><p class="first">Don’t forget to <strong>Update</strong> before leaving the page. <em>(Be careful, the
+reminders will stop!)</em></p>
+</li>
+<li><p class="first">Testing Source Address Affinity</p>
+<ol class="loweralpha simple" start="24">
+<li>At this point you may want to open a second browser window to
+the management GUI.</li>
+</ol>
+<ol class="lowerroman simple" start="11">
+<li>From one management window go to <strong>Statistics &gt;&gt; Module
+Statistic &gt;&gt; Local Traffic</strong></li>
+<li>Select <strong>Persistence Records</strong> for the <strong>Statistics Type</strong> menu</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image18.png"><img alt="image17" src="../_images/image18.png" style="width: 6.68524in; height: 3.33333in;" /></a></p>
+<ol class="arabic simple" start="3">
+<li>At this point you will see that the Persistence Records statistics
+display has been disabled (way back in v12.1). A TMSH database
+command is required to activate it.<ol class="loweralpha" start="10">
+<li>SSH to you BIG-IP at 10.1.1.245. Username: <strong>root</strong> Password:
+<strong>default</strong></li>
+<li>At the prompt enter: <strong>tmsh</strong></li>
+<li>At the TMSH prompt enter the command in the <strong>Persistence Value</strong>
+GUI.<ol class="lowerroman" start="13">
+<li><strong>modify sys db
+ui.statistics.modulestatistics.localtraffic.persistencerecords
+value true</strong><ol class="arabic" start="3">
+<li>Tab completion will make this a little easier</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Now, in this window you can watch your persistence records. You may
+want to set <strong>Auto Refresh</strong> to 20 seconds.</li>
+</ol>
+<p><a class="reference internal" href="../_images/image19.png"><img alt="image18" src="../_images/image19.png" style="width: 7.84983in; height: 2.12963in;" /></a></p>
+<ol class="arabic simple" start="5">
+<li>In your other management GUI window go to <strong>www_pool</strong> and clear the
+member statistics.<ol class="loweralpha" start="13">
+<li>Open a browser session to your virtual server and refresh several
+times.</li>
+<li>How many members are taking traffic?</li>
+<li>Check you <strong>Persists Records</strong> window. Are there any persistence
+records?<ol class="lowerroman" start="14">
+<li>If you are not Auto Refreshing, don’t forget to hit
+<strong>Refresh</strong></li>
+</ol>
+</li>
+<li>Refresh you web page prior to the <strong>Age column</strong> reaching <strong>60.</strong>
+What happens?</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="cookie-persistence-cookie-insert">
+<h2>Cookie Persistence (Cookie Insert)<a class="headerlink" href="#cookie-persistence-cookie-insert" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Local Traffic &gt;&gt; Profiles &gt;&gt; Persistence</strong> tab and hit
+<strong>Create</strong></li>
+</ol>
+<ol class="loweralpha simple">
+<li>Let’s name our profile <strong>my_cookie_insert</strong> (original isn’t it)</li>
+<li>Our <strong>Persistence Type</strong> will be <strong>Cookie</strong></li>
+<li>This brings us to the <strong>Configuration</strong> section.</li>
+</ol>
+<p><a class="reference internal" href="../_images/image20.png"><img alt="image19" src="../_images/image20.png" style="width: 4.95546in; height: 4.35185in;" /></a></p>
+<ol class="arabic simple" start="2">
+<li>As you can see, the default <strong>Cookie Method</strong> is <strong>HTTP</strong> <strong>Cookie</strong>
+<strong>Insert</strong>, so we won’t have to modify the <strong>Cookie Method</strong></li>
+</ol>
+<ol class="loweralpha simple">
+<li>The BIG-IP will also create a cookie name for you using a combination
+of “<strong>BIGipServer</strong>” and the pool name the virtual server
+service. We will take this default also.</li>
+<li>We will use a <strong>session</strong> cookie. Which means the cookie is deleted
+when the browser is closed.</li>
+<li>Select <strong>Finished</strong></li>
+<li>Now attach your cookie persistence profile to your virtual server’s
+<strong>Default Persistence Profile</strong> by:<ol class="loweralpha">
+<li>Go to <strong>Local Traffic &gt;&gt; Virtual Server &gt;&gt; www_vs &gt;&gt; Resources</strong>
+tab</li>
+<li>Set the <strong>Default Persistence Profile</strong> to <strong>my_cookie_insert</strong></li>
+<li>Hit <strong>Update</strong></li>
+</ol>
+</li>
+<li>Whoa! Did you just get this error message?</li>
+</ol>
+<p><a class="reference internal" href="../_images/image211.png"><img alt="image20" src="../_images/image211.png" style="width: 6.43229in; height: 2.53704in;" /></a></p>
+<ol class="loweralpha simple" start="6">
+<li>Remember what we said earlier about some Profiles requiring
+prerequisite Profiles? Since we are looking in the HTTP header for
+the cookie the prerequisite for the Cookie Profile is the HTTP
+profile.</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li>We will have to go to the virtual server to add the HTTP profile,
+prior to adding the Cookie Persistence profile.<ol class="loweralpha">
+<li>Select the <strong>Properties</strong> tab on your virtual server</li>
+<li>Go to <strong>HTTP Profile</strong> in the <strong>Configuration</strong> section and select
+the default HTTP (<strong>http</strong>) profile.</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image221.png"><img alt="image21" src="../_images/image221.png" style="width: 4.19444in; height: 5.45605in;" /></a></p>
+<ol class="loweralpha simple" start="3">
+<li>Hit the <strong>Update</strong> button</li>
+<li>Now we can go back to the <strong>Resource</strong> tab and add our cookie
+persistence profile.</li>
+</ol>
+<ol class="arabic simple" start="4">
+<li>Testing cookie persistence.<ol class="loweralpha" start="5">
+<li>If you wish you can watch the member statistics to validate your
+persistence.</li>
+<li>Open a new browser session to your virtual server and refresh
+several times.</li>
+<li>Does the page ever change?</li>
+<li>Did you hit a different server?</li>
+<li>Refresh several times. Are you hitting the same server?<ol class="lowerroman" start="15">
+<li>On the web page under <strong>HTTP Request and Response
+Information</strong> click the <strong>Display Cookie</strong> link.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<p><a href="#id1"><span class="problematic" id="id2">|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLd1d56cb.PNG|</span></a></p>
+<p>Archive your work in the file: <strong>lab3_lb_monitor_and_persist</strong></p>
+</div>
+</div>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+
+      <div class="container-fluid">
+      <div class="row">
+        <div class="content-fluid pre-footer">
+          <div class="blocks-container">
+            <div class="block">
+              <h3>Support Programs</h3>
+              <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Contact Support</h3>
+              <p>
+                North America: 1-888-882-7535<br>
+                Outside North America: 800-11-275-435
+              </p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Feedback and Help</h3>
+              <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+              <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="footer">
+          <div class="container">
+            <div class="col-sm-3 col-md-2">
+              <h4>About F5</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-3 col-md-2">
+              <h4>Education</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-sm-3 col-md-2">
+              <h4>F5 sites</h4>
+              <ul>
+              <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+              </li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+              </li>
+              <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-sm-3 col-md-2">
+          <h4>Support Tasks</h4>
+          <ul>
+              <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+              </li>
+              <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+              </li>
+              <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-xs-12 col-md-3 right">
+          <h4>Connect with us</h4>
+          <ul class="social_icons">
+              <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+          </ul>
+      </div>
+
+      <div class="content-fluid left">
+          <div class="col-xs-12">
+              <p>
+                  © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                  <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                  <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+              </p>
+          </div>
+      </div>
+  </div>
+</div>
+  </div>
+</div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>

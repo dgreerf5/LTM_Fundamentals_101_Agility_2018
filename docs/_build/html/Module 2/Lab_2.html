@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Lab 2: The Basics (Networking, Pools and Virtual Servers) &#8212; LTM Beginning Implementation Agility 2018 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head><body>
+  <div class="container-fluid">
+  <div class="row corp-header">
+    <div class="container corp-header">
+      <div class="container corp-menu">
+        <ul>
+          <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+          <li><a href="https://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com">Community</a></li>
+          <li><a href="https://github.com/F5Networks">GitHub</a></li>
+          <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pageHeader">
+    <div class="container stat">
+      <div class="col-xs-12 stat">
+        <a class="internalLink" href="https://f5.com">
+          <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+        </a>
+        <ul id="MainMenu" class="main-menu">
+          <li>
+            <a href="#">Products
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ProductsSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third"><span class="a-mm-h">BIG-IP Controllers</span>
+                    <ul>
+                      <li><a href="/products/connectors/cf-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Cloud Foundry</a></li>
+                      <li><a href="/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Kubernetes/OpenShift</a></li>
+                      <li><a href="/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary right now, we have them all listed>
+                      <span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></span><-->
+                    <span class="a-mm-h">Application Services Proxy</span>
+                    <ul>
+                      <li><a href="/products/asp/latest" data-link-type="Nav: Mega">F5 Application Services Proxy</a></li>
+                      <li><a href="/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5-kube-proxy</a></li>
+                      <li><a href="/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 ASP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary>
+                    <span class="seemore"><a href="/products/asp/latest">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">OpenStack</span>
+                    <ul>
+                      <li><a href="/products/openstack/agent/latest" data-link-type="Nav: Mega">F5 Agent - OpenStack Neutron</a></li>
+                      <li><a href="/products/openstack/lbaasv2-driver/latest" data-link-type="Nav: Mega">F5 Driver - OpenStack LBaaS</a></li>
+                      <li><a href="/products/openstack/heat-plugins/latest" data-link-type="Nav: Mega">F5 Plugins - OpenStack Heat</a></li>
+                     </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Orchestration Templates</span>
+                  <ul>
+                    <li><a href="https://github.com/F5Networks/f5-aws-cloudformation" target="_blank">F5 Templates for AWS CloudFormation</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-azure-arm-templates" target="_blank">F5 Templates for Azure ARM</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-google-gdm-templates" target="_blank">F5 Templates for Google Cloud Deployment Manager</a> </li>
+                    <li><a href="/products/templates/openstack-heat/latest" data-link-type="Nav: Mega">F5 Templates for OpenStack Heat</a></li>
+                  </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Cloud & Container Integrations
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ContainersSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                    <!--- HIDE, ALL ARE CURRENTLY DISPLAYED>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/containers/latest/">See all </a></span>
+                    --->
+                  <li class="third"><span class="a-mm-h">Clouds</span>
+                    <ul>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">AWS</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Azure</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Google Cloud</a></li>
+                      <li><a href="/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                    </ul>
+                    <!-- unnecessary right now>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span>
+                    <-->
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Containers</span>
+                    <ul>
+                      <li><a href="/containers/latest/cloudfoundry/" data-link-type="Nav: Mega">Cloud Foundry</a> </li>
+                      <li><a href="/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                      <li><a href="/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                      <li><a href="/containers/latest/openshift/" data-link-type="Nav: Mega">OpenShift</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Resources
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+            <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third">
+                    <span class="a-mm-h">Downloads</span>
+                    <ul>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks-asp" class="internalLink">Docker Store</a></li>
+                    </ul>
+                    <span class="a-mm-h">OpenSource</span>
+                  <ul>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">F5Networks on GitHub</a></li>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5DevCentral" class="internalLink">F5DevCentral on GitHub</a></li>
+                  </ul>
+                    </li>
+                  <li class="divider"></li>
+                  <li class="third">
+                  <span class="a-mm-h">Training & Labs</span>
+                   <ul>
+                  <li><p>Learn how to get the most out of the F5 platform</p></li>
+                    <li><a href="/training/community">Community</a></li>
+                  </ul>
+                  </li>
+                  <li class="divider"></li>
+                  
+                  <li class="third">
+                    <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                    <ul>
+                      <li>
+                        <p>Get up to speed with free self-paced courses</p>
+                      </li>
+                    </ul>
+                    <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                    <ul>
+                      <li>
+                        <p>Join the community of 250,000+ technical peers</p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container-fluid -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebartoc">
+         <h4><a href="../">LTM Beginning Implementation Agility 2018 1.0</a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">Lab 2: The Basics (Networking, Pools and Virtual Servers)</a><ul>
+<li><a class="reference internal" href="#creating-vlans">Creating VLANs</a></li>
+<li><a class="reference internal" href="#assigning-a-self-ip-addresses-to-your-vlans">Assigning a Self IP addresses to your VLANs</a><ul>
+<li><a class="reference internal" href="#id3">**</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#assigning-the-default-gateway">Assigning the Default Gateway</a></li>
+<li><a class="reference internal" href="#creating-pools">Creating Pools</a></li>
+<li><a class="reference internal" href="#creating-virtual-servers">Creating Virtual Servers</a></li>
+<li><a class="reference internal" href="#extra-credit">Extra Credit!</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Agility 2018</a> &gt; <a href="../intro.html">LTM Beginning Implementation Agility 2018</a>
+          <span class="right"><a href="../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="lab-2-the-basics-networking-pools-and-virtual-servers">
+<h1>Lab 2: The Basics (Networking, Pools and Virtual Servers)<a class="headerlink" href="#lab-2-the-basics-networking-pools-and-virtual-servers" title="Permalink to this headline">¶</a></h1>
+<p>In this lab we will access the Management GUI. We will then create the
+VLANs and assign self IP addresses to our VLAN. As mentioned during our
+lecture portion, BIG-IPs may be put in-line or one-armed depending on
+your customer’s requirements and topology.</p>
+<div class="section" id="creating-vlans">
+<h2>Creating VLANs<a class="headerlink" href="#creating-vlans" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div>You will need create two untagged VLANs, one client-side VLAN
+(<strong>client_vlan</strong>) and one server-side VLAN (<strong>server_vlan)</strong> for the
+devices in your network.</div></blockquote>
+<ol class="arabic simple">
+<li>From the sidebar select <strong>Network</strong> <strong>&gt;&gt; VLANs</strong> then select
+<strong>Create</strong></li>
+</ol>
+<p><a class="reference internal" href="../_images/image12.png"><img alt="image0" src="../_images/image12.png" style="width: 5.79143in; height: 4.62037in;" /></a></p>
+<ol class="loweralpha simple">
+<li>Under <strong>General Properties</strong>:<ol class="lowerroman">
+<li><strong>Name</strong>: client_vlan</li>
+</ol>
+</li>
+<li>The name is for management purposes only, you could name them after
+your children or pets<ol class="lowerroman" start="2">
+<li><strong>Tag</strong>: &lt;leave blank&gt;<ol class="arabic">
+<li>Entering a tag is only required for “<strong>Tagged</strong>” (802.1q)
+interfaces. “<strong>Untagged</strong>” interfaces will automatically
+get a tag which is used for internal L2 segmentation of
+traffic.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Under <strong>Resources</strong> in the <strong>Interfaces</strong> section:<ol class="lowerroman" start="3">
+<li><strong>Interface</strong>: 1.1</li>
+<li><strong>Tagging</strong>: Untagged</li>
+<li>Select the <strong>Add</strong> button. Leave all other items at the default
+setting.</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<div><a class="reference internal" href="../_images/image21.png"><img alt="image1" src="../_images/image21.png" style="width: 3.72037in; height: 2.59259in;" /></a></div></blockquote>
+<ol class="lowerroman simple" start="6">
+<li>When you have completed your VLAN configuration, hit the
+<strong>Finished</strong> button</li>
+</ol>
+<p>Create another untagged VLAN named <strong>server_vlan</strong> on interface <strong>1.2.</strong></p>
+</div>
+<div class="section" id="assigning-a-self-ip-addresses-to-your-vlans">
+<h2>Assigning a Self IP addresses to your VLANs<a class="headerlink" href="#assigning-a-self-ip-addresses-to-your-vlans" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Network &gt;&gt; Self IPs</strong>, select <strong>Create</strong>.</li>
+</ol>
+<p><a href="#id4"><span class="problematic" id="id5">|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML51055f77.PNG|</span></a></p>
+<ol class="loweralpha simple" start="4">
+<li>Create a new self IP, for the <strong>server_vlan</strong> and <strong>client_vlan</strong>
+VLANs. In <strong>Network &gt;&gt; Self IPs &gt;&gt; New Self IP</strong>, under
+<strong>Configuration</strong> enter:</li>
+</ol>
+<blockquote>
+<div><strong>Server-Side Client-side</strong></div></blockquote>
+<ol class="lowerroman simple" start="7">
+<li><strong>Name</strong>: server_ip client_ip</li>
+<li><strong>IP Address</strong>: 10.1.20.245 10.1.10.245</li>
+<li><strong>Netmask</strong>: 255.255.255.0 255.255.255.0</li>
+<li><strong>VLAN</strong>: server_vlan client_vlan</li>
+<li><strong>Port</strong> <strong>Lockdown</strong>: Allow None Allow None<ol class="arabic" start="2">
+<li>The default “<strong>Allow</strong> <strong>None</strong>” means the Self IP would
+respond only to ICMP.</li>
+<li>The “<strong>Allow</strong> <strong>Defaults</strong>” selection opens the following
+on the self IP of the VLAN<ol class="loweralpha">
+<li>TCP: ssh, domain, snmp, https</li>
+<li>TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)</li>
+<li>UDP: 520, cap, domain, f5-iquery, snmp</li>
+<li>PROTOCOL: ospf</li>
+</ol>
+</li>
+<li><strong>NOTE:</strong> Even with <strong>“Allow None”</strong> chosen, traffic destined
+for a virtual server or object on the F5 (e.g. NAT) are able to
+pas through without issue as any object created on the F5 is by
+default allowed to pass through.</li>
+</ol>
+</li>
+</ol>
+<ol class="loweralpha simple" start="5">
+<li>When you have completed your self-IP configuration, hit the <a class="reference internal" href="../_images/image41.png"><img alt="image3" src="../_images/image41.png" style="width: 0.625in; height: 0.20833in;" /></a>
+button. You should have something similar to the following</li>
+</ol>
+<p><a class="reference internal" href="../_images/image5.png"><img alt="image4" src="../_images/image5.png" style="width: 7.80083in; height: 1.74074in;" /></a></p>
+<div class="section" id="id3">
+<h3><a href="#id1"><span class="problematic" id="id2">**</span></a><a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="assigning-the-default-gateway">
+<h2>Assigning the Default Gateway<a class="headerlink" href="#assigning-the-default-gateway" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Go to <strong>Network &gt; Routes</strong> and then <strong>Add</strong>.<ol class="loweralpha" start="6">
+<li>Here is where we assign our default gateway (and other static
+routes as desired)</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image6.png"><img alt="image5" src="../_images/image6.png" style="width: 7.83303in; height: 2.81482in;" /></a></p>
+<ol class="loweralpha simple" start="7">
+<li>Under <strong>Properties</strong><ol class="lowerroman" start="12">
+<li><strong>Name</strong>: default_gateway</li>
+<li><strong>Destination</strong>: 0.0.0.0</li>
+<li><strong>Netmask</strong>: 0.0.0.0</li>
+<li><strong>Resource</strong>: Use Gateway…</li>
+<li><strong>Gateway</strong> <strong>Address</strong>: 10.1.10.1</li>
+<li>When you have completed defining your default gateway, hit the
+<a class="reference internal" href="../_images/image41.png"><img alt="image6" src="../_images/image41.png" style="width: 0.625in; height: 0.20833in;" /></a> button</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple">
+<li>Verify your network configuration<ol class="loweralpha" start="8">
+<li>Ping your client-side self IP (<strong>10.1.10.245</strong>) to verify
+connectivity</li>
+<li>Use an SSH utility, such as puTTY, to access your BIG-IP
+management port at 10.1.1.245.<ol class="lowerroman" start="18">
+<li>User: <strong>root</strong> Password: <strong>default</strong></li>
+<li>Ping your default gateway, 10.1.10.1</li>
+<li>Ping a web server at 10.1.20.11.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="creating-pools">
+<h2>Creating Pools<a class="headerlink" href="#creating-pools" title="Permalink to this headline">¶</a></h2>
+<p>In this lab we will build a pool and virtual server to support our web
+site and verify our configurations by accessing our web servers through
+the BIG-IP. Verification will be performed visually and through various
+statistical interfaces.</p>
+<ol class="arabic simple">
+<li>From the sidebar, select <strong>Local Traffic &gt;&gt;</strong> <strong>Pools</strong> then select
+<strong>Create</strong>. Here we will create our new pool</li>
+</ol>
+<p><a class="reference internal" href="../_images/image7.png"><img alt="image7" src="../_images/image7.png" style="width: 3.46875in; height: 3.20148in;" /></a></p>
+<ol class="loweralpha simple" start="10">
+<li>Under <strong>Configuration</strong>:<ol class="lowerroman" start="21">
+<li><strong>Name</strong>: www_pool<ol class="arabic" start="5">
+<li>The name is for management purposes only, no spaces can be
+used</li>
+</ol>
+</li>
+<li><strong>Description</strong>: &lt;optional&gt;</li>
+<li><strong>Health</strong> <strong>Monitor</strong>: http</li>
+</ol>
+</li>
+<li>Under <strong>Members:</strong><ol class="lowerroman" start="24">
+<li><strong>Load Balancing Method</strong>: &lt;leave at the default Round Robin&gt;</li>
+<li><strong>Priority Group Activation</strong>: &lt;leave at default&gt;</li>
+<li><strong>New Members</strong>:</li>
+</ol>
+</li>
+</ol>
+<table border="1" class="docutils">
+<colgroup>
+<col width="42%" />
+<col width="58%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head"><strong>Address</strong></th>
+<th class="head"><strong>Service Port</strong></th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>10.1.20.11</td>
+<td>80</td>
+</tr>
+<tr class="row-odd"><td>10.1.20.12</td>
+<td>80</td>
+</tr>
+<tr class="row-even"><td>10.1.20.13</td>
+<td>80</td>
+</tr>
+</tbody>
+</table>
+<ol class="arabic simple" start="6">
+<li>As you enter each IP address and port combination, hit the <strong>Add</strong>
+button</li>
+</ol>
+<ol class="loweralpha simple" start="12">
+<li>When you have completed your pool configuration, hit the <strong>Finished</strong>
+button</li>
+</ol>
+<p><a class="reference internal" href="../_images/image8.png"><img alt="image8" src="../_images/image8.png" style="width: 4.375in; height: 1.27287in;" /></a></p>
+</div>
+<div class="section" id="creating-virtual-servers">
+<h2>Creating Virtual Servers<a class="headerlink" href="#creating-virtual-servers" title="Permalink to this headline">¶</a></h2>
+<p>Now let’s build our virtual server</p>
+<ol class="arabic simple">
+<li>Under <strong>Local Traffic</strong> &gt;&gt; <strong>Virtual Servers</strong>, click the <strong>“+”</strong>
+icon</li>
+</ol>
+<p><a href="#id6"><span class="problematic" id="id7">|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML5118b969.PNG|</span></a></p>
+<ol class="loweralpha simple" start="13">
+<li>Under <strong>General Properties</strong><ol class="lowerroman" start="27">
+<li><strong>Name:</strong> www_vs</li>
+<li><strong>Description</strong>: &lt;optional&gt;</li>
+<li><strong>Type:</strong> Standard</li>
+<li><strong>Source/Address:</strong> &lt;leave blank&gt;<ol class="arabic" start="7">
+<li><strong>Note:</strong> The default is 0.0.0.0/0, all source IP address
+are allowed</li>
+</ol>
+</li>
+<li><strong>Destination</strong> <strong>Address/Mask:</strong> 10.1.10.100<ol class="arabic" start="8">
+<li>NOTE: The default mask is /32</li>
+</ol>
+</li>
+<li><strong>Service Port</strong>: 80 or HTTP</li>
+</ol>
+</li>
+<li>Under <strong>Configurations</strong><ol class="lowerroman" start="33">
+<li>The web servers do not use the BIG-IP LTM as the default
+gateway. This means return traffic will route around the
+BIG-IP LTM and the TCP handshake will fail. To prevent this
+we can configure SNAT Automap on the Virtual Server. This
+will translate the client IP to the self IP of the egress
+VLAN and ensure the response returns to the BIG-IP.</li>
+<li><strong>Source Address Translation</strong>: Auto Map</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<div><a href="#id8"><span class="problematic" id="id9">|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML58387b2.PNG|</span></a></div></blockquote>
+<ol class="loweralpha simple" start="15">
+<li>Under <strong>Resources</strong><ol class="lowerroman" start="35">
+<li><strong>iRules</strong>: none</li>
+<li><strong>Default Pool</strong>: From the drop down menu, select the pool
+(<strong>www_pool</strong>) which you created earlier</li>
+<li><strong>Default Persistence Profile</strong>: None</li>
+<li><strong>Fallback Persistence Profile</strong>: None</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple" start="2">
+<li>When you have completed your virtual server configuration, hit the
+<strong>Finished</strong> button</li>
+<li>You have now created a Virtual Server (Note: Items in blue are links)</li>
+</ol>
+<p><a class="reference internal" href="../_images/image111.png"><img alt="image11" src="../_images/image111.png" style="width: 7.5in; height: 1.65069in;" /></a></p>
+<ol class="arabic simple" start="4">
+<li>Now let’s see if our virtual server works!<ol class="loweralpha" start="16">
+<li>Open the browser to the Virtual Server you just created</li>
+<li>Refresh the browser screen several times (use “&lt;ctrl&gt;” F5)</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image121.png"><img alt="image12" src="../_images/image121.png" style="width: 6.56482in; height: 3.2976in;" /></a></p>
+<ol class="loweralpha simple" start="18">
+<li>Go to your BIG-IP and view the statistics for the <strong>www_vs</strong> virtual
+server and the <strong>www_pool</strong> pool and its associated members</li>
+<li>Go to <strong>Statistics &gt; Module Statistics &gt; Local Traffic</strong><ol class="lowerroman" start="39">
+<li>Choose <strong>Virtual Servers</strong> from drop down</li>
+</ol>
+</li>
+</ol>
+<p><a class="reference internal" href="../_images/image13.png"><img alt="image13" src="../_images/image13.png" style="width: 5.68925in; height: 2.7588in;" /></a></p>
+<ol class="loweralpha simple" start="20">
+<li>Go to <strong>Local</strong> <strong>Traffic &gt;&gt; Virtual Servers&gt;Statistics</strong></li>
+<li>Go to <strong>Local</strong> <strong>Traffic &gt;&gt; Pools &gt;&gt; Statistics</strong><ol class="lowerroman" start="40">
+<li>Did each pool member receive the same number of connections?</li>
+<li>Did each pool member receive approximately the same number of
+bytes?</li>
+<li>Note the Source and Destination address when you go to directly
+and through the virtual server</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple" start="5">
+<li>Let’s archive our configuration in case we have to fall back later.<ol class="loweralpha" start="22">
+<li>Go to <strong>System &gt;&gt; Archives</strong> and select <strong>Create</strong>.<ol class="lowerroman" start="43">
+<li>Name your archive <strong>lab2_the_basics_net_pool_vs</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="extra-credit">
+<h2>Extra Credit!<a class="headerlink" href="#extra-credit" title="Permalink to this headline">¶</a></h2>
+<p>You can also review statistics via the CLI! Simply SSH in to the
+management IP of your BIG-IP. Refer to your Student Information page and
+Network Diagram for the address.</p>
+<ol class="arabic">
+<li><p class="first">Check out the Linux CLI and TMSH</p>
+<ol class="loweralpha simple">
+<li><strong>Username</strong>: root <strong>Password</strong>: default (these are defaults)<ol class="lowerroman" start="44">
+<li>Select VT100 as the terminal type</li>
+<li>Review the information of the following commands:</li>
+<li><strong>bigtop –n</strong><ol class="arabic" start="9">
+<li>Type <strong>q</strong> to quit.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<ol class="loweralpha simple" start="23">
+<li>Take a look at the TMOS CLI, type “<strong>tmsh</strong>” to enter the
+Traffic Management Shell.<ol class="lowerroman" start="47">
+<li>(tmos)# <strong>show ltm pool</strong></li>
+<li>(tmos)# <strong>show ltm pool detail</strong><ol class="arabic" start="10">
+<li>show statistics from all pools</li>
+</ol>
+</li>
+<li>(tmos)# <strong>show ltm virtual</strong></li>
+<li>(tmos)# <strong>show ltm virtual detail</strong><ol class="arabic" start="11">
+<li>Show statistics of all virtual servers</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple" start="6">
+<li>Build an FQDN pool.<ol class="loweralpha" start="24">
+<li>Go <strong>to System ›› Configuration : Device : DNS</strong><ol class="lowerroman" start="51">
+<li>In the <strong>DNS Lookup Server List,</strong> in the <strong>Address</strong> box
+enter <strong>10.1.20.252</strong>, hit the <strong>Add</strong> button.<ol class="arabic" start="12">
+<li>This is the lab DNS server. Don’t forget to <strong>Update.</strong></li>
+</ol>
+</li>
+<li>From the Linux CLI do a <strong>dig fqdnpool.f5demo.com</strong>. You will
+see IP addresses for that name.</li>
+</ol>
+</li>
+<li>Go to <strong>Local Traffic ›› Pools : Pool List</strong> and select <strong>Create</strong><ol class="lowerroman" start="53">
+<li>Name the pool <strong>fqdn_pool</strong> and give the pool an <strong>http</strong>
+monitor.</li>
+<li>In <strong>New Members</strong>, select the <strong>New FQDN Node</strong> button.<ol class="arabic" start="13">
+<li>The <strong>FQDN</strong> is <strong>fqdnpool.f5demo.com</strong> and the <strong>Server
+Port</strong> is <strong>8081</strong>. Hit <strong>Add</strong> and <strong>Finished</strong>.</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>You will see the BIG-IP queried the DNS server and built a pool
+based on the answered. Modifying the FQDN on the name server will
+cause the pool to be modified.</li>
+</ol>
+</li>
+<li>Check out the Dashboard!<ol class="loweralpha">
+<li>Go to <strong>Statistics&gt;Dashboard</strong></li>
+</ol>
+</li>
+</ol>
+<p><a href="#id10"><span class="problematic" id="id11">|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML59e5bf2.PNG|</span></a></p>
+<ol class="arabic simple" start="8">
+<li>Click the Big Red F5 ball. This will take you to the Welcome page.
+Here you can find links to:<ol class="loweralpha" start="2">
+<li>User Documentation, Running the Setup Utility, Support, Plug-ins,
+SNMP MIBs</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+
+      <div class="container-fluid">
+      <div class="row">
+        <div class="content-fluid pre-footer">
+          <div class="blocks-container">
+            <div class="block">
+              <h3>Support Programs</h3>
+              <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Contact Support</h3>
+              <p>
+                North America: 1-888-882-7535<br>
+                Outside North America: 800-11-275-435
+              </p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Feedback and Help</h3>
+              <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+              <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="footer">
+          <div class="container">
+            <div class="col-sm-3 col-md-2">
+              <h4>About F5</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-3 col-md-2">
+              <h4>Education</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-sm-3 col-md-2">
+              <h4>F5 sites</h4>
+              <ul>
+              <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+              </li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+              </li>
+              <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-sm-3 col-md-2">
+          <h4>Support Tasks</h4>
+          <ul>
+              <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+              </li>
+              <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+              </li>
+              <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-xs-12 col-md-3 right">
+          <h4>Connect with us</h4>
+          <ul class="social_icons">
+              <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+          </ul>
+      </div>
+
+      <div class="content-fluid left">
+          <div class="col-xs-12">
+              <p>
+                  © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                  <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                  <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+              </p>
+          </div>
+      </div>
+  </div>
+</div>
+  </div>
+</div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>

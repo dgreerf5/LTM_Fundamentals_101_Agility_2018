@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Lab 7: Support and Troubleshooting &#8212; LTM Beginning Implementation Agility 2018 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/css/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/f5.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+<!--
+# Copyright 2017 F5 Networks
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+<link href="https://cdn.f5.com/favicon.ico" rel="icon">
+<script src="https://use.fontawesome.com/21fb8a09c3.js"></script>
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+  </head><body>
+  <div class="container-fluid">
+  <div class="row corp-header">
+    <div class="container corp-header">
+      <div class="container corp-menu">
+        <ul>
+          <li><a href="https://f5.com" class="internalLink">F5.com</a></li>
+          <li><a href="https://support.f5.com">Support</a></li>
+          <li><a href="https://devcentral.f5.com">Community</a></li>
+          <li><a href="https://github.com/F5Networks">GitHub</a></li>
+          <li><a href="https://f5.com/about-us/careers">Careers</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row pageHeader">
+    <div class="container stat">
+      <div class="col-xs-12 stat">
+        <a class="internalLink" href="https://f5.com">
+          <img class="logo" src="https://cdn.f5.com/websites/support/assets/images/logo.svg" width="50" height="44" alt="F5 Networks" title="F5 Networks" border="0">
+        </a>
+        <ul id="MainMenu" class="main-menu">
+          <li>
+            <a href="#">Products
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ProductsSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third"><span class="a-mm-h">BIG-IP Controllers</span>
+                    <ul>
+                      <li><a href="/products/connectors/cf-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Cloud Foundry</a></li>
+                      <li><a href="/products/connectors/k8s-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Kubernetes/OpenShift</a></li>
+                      <li><a href="/products/connectors/marathon-bigip-ctlr/latest" data-link-type="Nav: Mega">F5 BIG-IP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary right now, we have them all listed>
+                      <span class="seemore"><a data-link-type="Nav: Mega" href="/products/connectors">See all </a></span><-->
+                    <span class="a-mm-h">Application Services Proxy</span>
+                    <ul>
+                      <li><a href="/products/asp/latest" data-link-type="Nav: Mega">F5 Application Services Proxy</a></li>
+                      <li><a href="/products/connectors/f5-kube-proxy/latest" data-link-type="Nav: Mega">F5-kube-proxy</a></li>
+                      <li><a href="/products/connectors/marathon-asp-ctlr/latest" data-link-type="Nav: Mega">F5 ASP Controller for Marathon</a></li>
+                    </ul>
+                    <!-- unnecessary>
+                    <span class="seemore"><a href="/products/asp/latest">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">OpenStack</span>
+                    <ul>
+                      <li><a href="/products/openstack/agent/latest" data-link-type="Nav: Mega">F5 Agent - OpenStack Neutron</a></li>
+                      <li><a href="/products/openstack/lbaasv2-driver/latest" data-link-type="Nav: Mega">F5 Driver - OpenStack LBaaS</a></li>
+                      <li><a href="/products/openstack/heat-plugins/latest" data-link-type="Nav: Mega">F5 Plugins - OpenStack Heat</a></li>
+                     </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                  </li>
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Orchestration Templates</span>
+                  <ul>
+                    <li><a href="https://github.com/F5Networks/f5-aws-cloudformation" target="_blank">F5 Templates for AWS CloudFormation</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-azure-arm-templates" target="_blank">F5 Templates for Azure ARM</a> </li>
+                    <li><a href="https://github.com/F5Networks/f5-google-gdm-templates" target="_blank">F5 Templates for Google Cloud Deployment Manager</a> </li>
+                    <li><a href="/products/templates/openstack-heat/latest" data-link-type="Nav: Mega">F5 Templates for OpenStack Heat</a></li>
+                  </ul>
+                    <!--
+                    <span class="seemore"><a href="/products/index.html">See all </a></span>
+                    --->
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Cloud & Container Integrations
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+
+            <div class="menu-panel soft-hide" id="ContainersSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                    <!--- HIDE, ALL ARE CURRENTLY DISPLAYED>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/containers/latest/">See all </a></span>
+                    --->
+                  <li class="third"><span class="a-mm-h">Clouds</span>
+                    <ul>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">AWS</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Azure</a></li>
+                      <li><a href="/cloud/public/v1" data-link-type="Nav: Mega">Google Cloud</a></li>
+                      <li><a href="/cloud/openstack/" data-link-type="Nav: Mega">OpenStack</a></li>
+                    </ul>
+                    <!-- unnecessary right now>
+                    <span class="seemore"><a data-link-type="Nav: Mega" href="/cloud/">See all </a></span>
+                    <-->
+                  <li class="divider"></li>
+                  <li class="third"><span class="a-mm-h">Containers</span>
+                    <ul>
+                      <li><a href="/containers/latest/cloudfoundry/" data-link-type="Nav: Mega">Cloud Foundry</a> </li>
+                      <li><a href="/containers/latest/kubernetes/" data-link-type="Nav: Mega">Kubernetes</a></li>
+                      <li><a href="/containers/latest/marathon/" data-link-type="Nav: Mega">Mesos Marathon</a></li>
+                      <li><a href="/containers/latest/openshift/" data-link-type="Nav: Mega">OpenShift</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+          <li>
+            <a href="#">Resources
+              <span class="indicator"><span class="arrow-up"></span></span>
+            </a>
+            <div class="menu-panel soft-hide" id="UPCProgramSubmenu">
+              <div class="container">
+                <ul class="submenu col-sm-11">
+                  <li class="third">
+                    <span class="a-mm-h">Downloads</span>
+                    <ul>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://hub.docker.com/r/f5networks/" class="internalLink">Docker Hub</a></li>
+                      <li><a target="_blank" data-link-type="Nav: Mega" href="https://store.docker.com/images/f5networks-asp" class="internalLink">Docker Store</a></li>
+                    </ul>
+                    <span class="a-mm-h">OpenSource</span>
+                  <ul>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5Networks" class="internalLink">F5Networks on GitHub</a></li>
+                    <li><a target="_blank" data-link-type="Nav: Mega" href="https://github.com/F5DevCentral" class="internalLink">F5DevCentral on GitHub</a></li>
+                  </ul>
+                    </li>
+                  <li class="divider"></li>
+                  <li class="third">
+                  <span class="a-mm-h">Training & Labs</span>
+                   <ul>
+                  <li><p>Learn how to get the most out of the F5 platform</p></li>
+                    <li><a href="/training/community">Community</a></li>
+                  </ul>
+                  </li>
+                  <li class="divider"></li>
+                  
+                  <li class="third">
+                    <a href="//university.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega">F5 University</a>
+                    <ul>
+                      <li>
+                        <p>Get up to speed with free self-paced courses</p>
+                      </li>
+                    </ul>
+                    <a data-ng-href="https://devcentral.f5.com" class="a-mm-h internalLink" target="_blank" data-link-type="Nav: Mega" href="https://devcentral.f5.com">DevCentral</a>
+                    <ul>
+                      <li>
+                        <p>Join the community of 250,000+ technical peers</p>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div> <!-- /container-fluid -->
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-3 col-md-3 sidebartoc">
+         <h4><a href="../">LTM Beginning Implementation Agility 2018 1.0</a></h4>
+<div id="searchbox" style="display: none" role="search">
+  <form class="search" action="../search.html" method="get">
+    <div>
+      <input type="text" name="q" placeholder="Search" style="padding-left: 6px;"/>
+      <!-- <input type="submit" value="Go" style="margin-top: 4px;"/> -->
+      <button type="submit" class="btn btn-primary btn-xs">Go</button>
+    </div>
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+  <p class="caption">
+   <span class="caption-text">Current Page</span>
+  </p>
+  <ul>
+<li><a class="reference internal" href="#">Lab 7: Support and Troubleshooting</a><ul>
+<li><a class="reference internal" href="#archive-the-current-configuration-and-perform-a-health-check-using-a-qkview">Archive the current configuration and perform a health check using a QKview</a></li>
+<li><a class="reference internal" href="#troubleshoot-using-tcpdump-or-curl">Troubleshoot using TCPDump or Curl.</a></li>
+</ul>
+</li>
+</ul>
+
+
+
+        
+      </div>
+      <div class="col-md-offset-3 col-sm-offset-3 main">
+        <h4>
+          <a href="/">Agility 2018</a> &gt; <a href="../intro.html">LTM Beginning Implementation Agility 2018</a>
+          <span class="right"><a href="../genindex.html">Index</a></span>
+        </h4>
+        
+  <div class="section" id="lab-7-support-and-troubleshooting">
+<h1>Lab 7: Support and Troubleshooting<a class="headerlink" href="#lab-7-support-and-troubleshooting" title="Permalink to this headline">¶</a></h1>
+<p>In this lab, you will review your BIG-IP using iHealth and perform some
+basic troubleshooting commands</p>
+<p>Objective:</p>
+<ul class="simple">
+<li>Collect a QKView and upload it to <a class="reference external" href="http://ihealth.f5.com">http://ihealth.f5.com</a> and review
+the results</li>
+<li>Perform a TCPDump to watch traffic flow</li>
+<li>Obtain web page information via Curl</li>
+</ul>
+<div class="section" id="archive-the-current-configuration-and-perform-a-health-check-using-a-qkview">
+<h2>Archive the current configuration and perform a health check using a QKview<a class="headerlink" href="#archive-the-current-configuration-and-perform-a-health-check-using-a-qkview" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Obtain a <strong>QKView</strong>. Go to <strong>System &gt;&gt; Support</strong></p>
+<ol class="loweralpha">
+<li><p class="first">Click <strong>New Support Snapshot</strong></p>
+<p><strong>NOTE: If you have an iHealth account, you can choose to use the
+Generate and Upload QKview to iHealth option as long as your
+management port has Internet access. For this exercise, we will
+skip this.</strong></p>
+</li>
+<li><p class="first">From the drop-down, select <strong>Generate QKview</strong></p>
+</li>
+</ol>
+<ol class="loweralpha simple">
+<li>Select <strong>Download</strong> and download the QKView to your PC</li>
+<li><strong>NOTE:</strong> If you leave the <strong>Support</strong> page and return you will
+still the <strong>Support Snapshot</strong> screen. You CANNOT create another
+<strong>QKView</strong> or <strong>TCP Dump</strong> until the QKView is deleted.</li>
+</ol>
+</li>
+</ol>
+<ol class="arabic simple">
+<li>Import the QKView into iHealth.<ol class="loweralpha" start="3">
+<li>Go to <a class="reference external" href="http://ihealth.f5.com">http://ihealth.f5.com</a>. <strong>If you don’t have an account, now
+is the time to create one and then skip to the next section
+“Troubleshoot using TCPDump or Curl” because it will take time for
+your account set up.</strong></li>
+<li>Select the <strong>Upload</strong> button and upload the QKView file you
+download from your BIG-IP</li>
+<li>Once the file is uploaded, you can click on the hostname to view
+you the heuristics<ol class="lowerroman">
+<li>Note the Diagnostics. Go to <strong>Diagnostics &gt;&gt; Critical</strong> on the
+side-bar.<ol class="arabic">
+<li>Example: <strong>The configuration contains user accounts with
+insecure passwords</strong> is because we are using default
+passwords</li>
+</ol>
+</li>
+<li>Select <strong>Network &gt;&gt; Virtual Servers</strong>, then click on the small
+white triangles to expand the view or go to <strong>Pools</strong>, then
+<strong>Pool Members</strong> to continue to expand the view.<ol class="arabic" start="2">
+<li>This is a little more detailed than <strong>Local Traffic &gt;&gt;
+Network Map</strong></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>If you want to see some interesting CLI commands, go to <strong>Commands
+&gt;&gt; Standard</strong> and expand <strong>tmsh</strong> then <strong>LTM</strong> and click on <strong>show
+/ltm virtual</strong> toward the bottom</li>
+<li>Under <strong>Files &gt;&gt; config</strong> you can view the <strong>bigip.conf</strong> file and
+see the command lines you used for you build<ol class="lowerroman" start="3">
+<li>All of the <strong>log</strong> files are here too</li>
+</ol>
+</li>
+<li>Feel free to just poke around</li>
+</ol>
+</li>
+</ol>
+</div>
+<div class="section" id="troubleshoot-using-tcpdump-or-curl">
+<h2>Troubleshoot using TCPDump or Curl.<a class="headerlink" href="#troubleshoot-using-tcpdump-or-curl" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic">
+<li><p class="first">Go to your <strong>www_vs (10.1.10.100)</strong> virtual server and set <strong>Source
+Address Translation</strong> to <strong>None</strong>.</p>
+<ol class="loweralpha simple">
+<li>Now browse the web site. You will not be able to access it even
+though the status of the virtual is available.<ol class="lowerroman">
+<li>Because the BIG-IP is not the server’s default gateway of the
+servers their response goes around the BIG-IP.</li>
+</ol>
+</li>
+</ol>
+<ol class="loweralpha simple">
+<li>The web administrator tells you everything is fine as far as he
+can see and thinks the issue is with the BIG-IP, because they
+ALWAYS think the issue is with the BIG-IP</li>
+<li>You begin by debugging the client connections to the web servers
+through the BIG-IP using TCPDump</li>
+</ol>
+</li>
+<li><p class="first">SSH to the management port of your BIG-IP.</p>
+<p><strong>Remember the BIG-IP is a full proxy. You will need two dumps and
+therefore two SSH windows for the client-side connection and the
+server-side connection.</strong></p>
+<ol class="loweralpha simple" start="3">
+<li>First let’s see if we are hitting the virtual server. At the Linux
+CLI prompt:<ol class="lowerroman">
+<li><strong>tcpdump –i &lt;client vlan name&gt; host –X –s128 10.1.10.100 and
+port 80</strong><ol class="arabic">
+<li>This is a little overkill, but a good example of syntax. We
+will only look at traffic headed for the virtual server. We
+will see the first 128 bytes (-s128) in ASCII (-X).</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Go to your browser and attempt to access the virtual server. You
+should see something like this:</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<div><p>17:38:40.051122 IP <strong>10.1.10.1</strong>.43932 &gt; 10.1.10.245.http: S
+522853636:522853636(0) win 8192 &lt;mss 1460,nop,wscale
+2,nop,nop,sackOK&gt;</p>
+<p>0x0000: 0ffe 0800 4500 0034 0a40 4000 4006 0699 ….E..4.&#64;&#64;.&#64;…</p>
+<p>0x0010: 0a80 0a01 0a80 0aeb ab9c 0050 1f2a 1d04 ………..P.*..</p>
+<p>0x0020: 0000 0000 8002 2000 3d10 0000 0204 05b4 ……..=…….</p>
+<p>0x0030: 0103 0302 0101 0402 ……..</p>
+<p>17:38:40.051169 IP 10.1.10.245.http &gt; 10.1.10.1.43932: S
+245310500:245310500(0) ack 522853637 win 4380 &lt;mss 1460,sackOK,eol&gt;</p>
+<p>0x0000: 0ffe 0800 4500 0030 27ef 4000 ff06 29ed ….E..0’.&#64;…).</p>
+<p>0x0010: 0a80 0aeb 0a80 0a01 0050 ab9c 0e9f 2424 ………P….$$</p>
+<p>0x0020: 1f2a 1d05 7012 111c 2a0e 0000 0204 05b4 .*..p…*…….</p>
+<p>0x0030: 0402 0000 ….</p>
+<p>17:38:40.053644 IP 10.1.10.1.43932 &gt; 10.1.10.244.http: . ack 1 win
+64240</p>
+<p>0x0000: 0ffe 0800 4500 0028 0a41 4000 4006 06a4 ….E..(.A&#64;.&#64;…</p>
+<p>0x0010: 0a80 0a01 0a80 0aeb ab9c 0050 1f2a 1d05 ………..P.*..</p>
+<p>0x0020: 0e9f 2425 5010 faf0 7018 0000 ..$%P…p…</p>
+<p>17:38:40.053648 IP 10.1.10.1.43932 &gt; 10.1.10.245.http: P 1:416(415)
+ack 1 win 64240</p>
+<p>0x0000: 0ffe 0800 4500 01c7 0a42 4000 4006 0504 ….E….B&#64;.&#64;…</p>
+<p>0x0010: 0a80 0a01 0a80 0aeb ab9c 0050 1f2a 1d05 ………..P.*..</p>
+<p>0x0020: 0e9f 2425 5018 faf0 43c5 0000 4745 5420
+..$%P…C…<strong>GET</strong>.</p>
+<p>0x0030: 2f20 4854 5450 2f31 2e31 0d0a 486f 7374 <strong>/.HTTP/1.1..Host</strong></p>
+<p>0x0040: 3a20 3130 2e31 3238 2e31 302e 3233 350d <strong>:.10.1.10.245</strong>.</p>
+</div></blockquote>
+<ol class="loweralpha simple" start="5">
+<li>Well you are hitting the virtual server so let’s look a little deeper
+and expand our dump. Your original client IP is in the first line of
+the dump 16:44:58.801250 IP <strong>10.1.10.1</strong>.41536 &gt; 10.128.10.245.https</li>
+</ol>
+<ol class="arabic simple" start="3">
+<li>In the second SSH window we will do an expanded <strong>tcpdump</strong> for the
+sake of interest<ol class="loweralpha" start="6">
+<li><strong>tcpdump –i &lt;server vlan name&gt; -X –s128 host &lt;client IP&gt;</strong></li>
+<li>Hit your virtual server again. As you can see, we are sending
+packers to the pool members. They just aren’t responding so we can
+reasonably suspect it’s a server issue.</li>
+</ol>
+</li>
+<li>It could be a port issue. Let’s check to see if the server is
+responding on port 80. On the BIG-IP, in an SSH window:<ol class="loweralpha" start="8">
+<li>Do a <strong>&lt;ctrl-c&gt;</strong> to escape out of <strong>tcpdump</strong>, if you are still
+in it, and use <strong>curl</strong> to test the server<ol class="lowerroman" start="2">
+<li><strong>curl –i &lt;server ip&gt;</strong><ol class="arabic" start="2">
+<li>“-i” to dump the HTTP header information also</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<div><p>[<a class="reference external" href="mailto:root&#37;&#52;&#48;bigip249">root<span>&#64;</span>bigip249</a>:Active:Standalone] config # curl -i 10.1.20.11</p>
+<p>HTTP/1.1 200 OK</p>
+<p>Date: Sat, 26 Jul 2014 19:25:28 GMT</p>
+<p>Server: Apache/2.2.22 (Ubuntu)</p>
+<p>X-Powered-By: PHP/5.4.9-4ubuntu2.2</p>
+<p>Vary: Accept-Encoding</p>
+<p>Content-Length: 3819</p>
+<p>Connection: close</p>
+<p>Content-Type: text/html</p>
+<p>&lt;html&gt;</p>
+<p>&lt;head&gt;</p>
+<p>&lt;TITLE&gt;Using virtual server 10.1.20.11 and pool member 10.1.20.11
+(Node #1)&lt;/TITLE&gt;</p>
+<p>&lt;meta http-equiv=”Content-Type” content=”text/html; charset=us-ascii”
+/&gt;</p>
+</div></blockquote>
+<ol class="lowerroman simple">
+<li>The server is responding to the BIG-IP when directly connected, but
+not through the virtual server. Sounds like the server is routing
+around the BIG-IP, which means the BIG-IP is <strong>not</strong> the default
+gateway.</li>
+</ol>
+<p>Turn <strong>SNAT Automap</strong> back on the <strong>www_vs</strong> virtual server</p>
+</div>
+</div>
+
+
+        
+      </div>
+    </div>
+  </div>
+
+
+      <div class="container-fluid">
+      <div class="row">
+        <div class="content-fluid pre-footer">
+          <div class="blocks-container">
+            <div class="block">
+              <h3>Support Programs</h3>
+              <p>Regionally located support centers enable F5 to provide support in a number of languages through native-speaking support engineers.</p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/support/support-offerings" target="_blank" href="https://f5.com/support/support-offerings">See more
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Contact Support</h3>
+              <p>
+                North America: 1-888-882-7535<br>
+                Outside North America: 800-11-275-435
+              </p>
+              <a class="btn internalLink" data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" href="https://f5.com/about-us/contact#regional-support">Local Support Numbers
+                <span class="icon-1x-right icon-new-window" data-icon="new-window">​</span>
+              </a>
+            </div>
+            <div class="block">
+              <h3>Feedback and Help</h3>
+              <p>Have questions, suggestions, or just want to get something off your chest? Let us know.</p>
+              <a class="btn" data-ui-sref="siteFeedback" target="_blank" href="https://support.f5.com/csp/siteFeedback">Leave feedback</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="footer">
+          <div class="container">
+            <div class="col-sm-3 col-md-2">
+              <h4>About F5</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/about-us/contact" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact" class="internalLink">Contact F5</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/about-us/careers" target="_blank" data-link-type="footer" href="https://f5.com/about-us/careers" class="internalLink">Careers</a>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-3 col-md-2">
+              <h4>Education</h4>
+              <ul>
+                <li><a data-ng-href="https://f5.com/education/training" target="_blank" data-link-type="footer" href="https://f5.com/education/training" class="internalLink">Training</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/certification" target="_blank" data-link-type="footer" href="https://f5.com/education/certification" class="internalLink">Certification</a>
+                </li>
+                <li><a data-ng-href="https://f5.com/education/training/free-courses" target="_blank" data-link-type="footer" href="https://f5.com/education/training/free-courses" class="internalLink">Free Online Training</a>
+                </li>
+              </ul>
+            </div>
+
+            <div class="col-sm-3 col-md-2">
+              <h4>F5 sites</h4>
+              <ul>
+              <li><a data-ng-href="https://f5.com" target="_blank" data-link-type="footer" href="https://f5.com" class="internalLink">F5.com</a>
+              </li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" data-link-type="footer" href="https://devcentral.f5.com" class="internalLink">Community</a>
+              </li>
+              <li><a data-ng-href="https://partners.f5.com" target="_blank" data-link-type="footer" href="https://partners.f5.com" class="internalLink">Partners</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-sm-3 col-md-2">
+          <h4>Support Tasks</h4>
+          <ul>
+              <li><a data-ui-sref="mySupport.createServiceRequest" data-link-type="footer" href="https://support.f5.com/csp/my-support/service-request">Create Service Request </a>
+              </li>
+              <li><a data-ng-href="https://f5.com/about-us/contact#regional-support" target="_blank" data-link-type="footer" href="https://f5.com/about-us/contact#regional-support" class="internalLink">Contact Support</a>
+              </li>
+              <li><a data-ui-sref="siteFeedback" target="_blank" data-link-type="footer" href="https://support.f5.com/csp/siteFeedback">Leave feedback [+]</a>
+              </li>
+          </ul>
+      </div>
+
+      <div class="col-xs-12 col-md-3 right">
+          <h4>Connect with us</h4>
+          <ul class="social_icons">
+              <li><a href="//twitter.com/f5networks" target="_blank" data-name="twitter" data-type="" data-prefix="social" data-utf="E032" title="Twitter" class="externalLink"><i class="icon-1x icon-twitter icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.linkedin.com/companies/f5-networks" target="_blank" class="linkedin externalLink" title="LinkedIn"><i class="icon-1x icon-linkedin icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.facebook.com/f5networksinc" target="_blank" class="facebook externalLink" title="Facebook"><i class="icon-1x icon-facebook icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a href="//www.youtube.com/f5networksinc" target="_blank" class="youtube externalLink" title="YouTube"><i class="icon-1x icon-youtube icon-inverse-circle" data-link-type="footer"></i></a></li>
+              <li><a data-ng-href="https://devcentral.f5.com" target="_blank" class="devcentral internalLink" title="DevCentral" href="https://devcentral.f5.com"><i class="icon-1x icon-dc-pos icon-inverse-circle" data-link-type="footer"></i></a></li>
+          </ul>
+      </div>
+
+      <div class="content-fluid left">
+          <div class="col-xs-12">
+              <p>
+                  © Copyright <span class="ng-binding">2017</span> by F5 Networks, Inc. |
+                  <a data-ng-href="https://f5.com/about-us/policies" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies" class="internalLink">Policies</a> |
+                  <a data-ng-href="https://f5.com/about-us/policies/trademarks" target="_blank" data-link-type="footer" href="https://f5.com/about-us/policies/trademarks" class="internalLink">Trademarks</a>
+              </p>
+          </div>
+      </div>
+  </div>
+</div>
+  </div>
+</div>
+
+  <!-- Bootstrap core JavaScript
+  ================================================== -->
+  <!-- Placed at the end of the document so the pages load faster -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="../_static/js/bootstrap.min.js"></script>
+  <script type="text/javascript">
+    jQuery.noConflict(true)
+  </script>
+  </body>
+</html>
