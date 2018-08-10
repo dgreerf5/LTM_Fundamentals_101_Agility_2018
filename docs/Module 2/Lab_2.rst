@@ -246,12 +246,12 @@ You have now created a Virtual Server (Note: Items in blue are links)
 
 |image12|
 
-   #. Go to your BIG-IP and view the statistics for the **www_vs** virtual
+   * Go to your BIG-IP and view the statistics for the **www_vs** virtual
       server and the **www_pool** pool and its associated members
 
-   #. Go to **Statistics > Module Statistics > Local Traffic**
+   * Go to **Statistics > Module Statistics > Local Traffic**
 
-      #. Choose **Virtual Servers** from drop down
+      * Choose **Virtual Servers** from drop down
 
 |image13|
 
