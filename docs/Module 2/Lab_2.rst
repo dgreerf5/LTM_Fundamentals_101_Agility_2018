@@ -42,7 +42,7 @@ Creating VLANs
 
 |image1|
 
-      #. When you have completed your VLAN configuration, hit the **Finished** button
+      iv. When you have completed your VLAN configuration, hit the **Finished** button
 
 Create another untagged VLAN named **server_vlan** on interface **1.2.**
 
@@ -71,6 +71,7 @@ Assigning a Self IP addresses to your VLANs
 
    #. **Port** **Lockdown**:  Allow None                        Allow None
 
+::
       #. The default “\ **Allow** **None**\ ” means the Self IP would
          respond only to ICMP.
    
