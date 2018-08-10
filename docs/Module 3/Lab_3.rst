@@ -91,42 +91,42 @@ two members in the pool for redundancy and load. They would find this
 beneficial to allow connections to proceed during a maintenance window
 or during an outage.
 
-1. Go to **Local Traffic >> Pools >> www_pool**
+#. Go to **Local Traffic >> Pools >> www_pool**
 
-   j. Select the **Members** tab.
+   #. Select the **Members** tab.
 
-      xii.  Set the **Load Balancing Method** back to **Round Robin**
+      #.  Set the **Load Balancing Method** back to **Round Robin**
 
-      xiii. Set the **Priority Group Activation** to **Less than …**
+      #. Set the **Priority Group Activation** to **Less than …**
             **2** Available Members.
 
-|image3|
+         |image3|
 
-k. Don’t forget to hit the **Update** button
+   #. Don’t forget to hit the **Update** button
 
-l. Select the pool members **10.128.20.11** and **10.128.20.12** and set
-   their **Priority Group** to **2**.
+   #. Select the pool members **10.128.20.11** and **10.128.20.12** and set
+      their **Priority Group** to **2**.
 
-   xiv. This will allow you to change the priority on that particular
-        member.
+      #. This will allow you to change the priority on that particular
+         member.
 
-|image4|
+         |image4|
 
-4. Review your settings and let’s see how load balancing reacts now
+#. Review your settings and let’s see how load balancing reacts now
 
-   m. Select the **Statistics** tab.
+   #. Select the **Statistics** tab.
 
-   n. Reset the pool statistics.
+   #. Reset the pool statistics.
 
-   o. Browse to your virtual server and refresh several times.
+   #. Browse to your virtual server and refresh several times.
 
-   p. Refresh your statistics.
+   #. Refresh your statistics.
 
-   q. Are all members taking connections?
+   #. Are all members taking connections?
 
-   r. Which member isn’t taking connections?
+   #. Which member isn’t taking connections?
 
-5. Let’s simulate a maintenance window or an outage by disabling a pool
+#. Let’s simulate a maintenance window or an outage by disabling a pool
    member in the highest priority group (2).
 
    **NOTE:** F5 ranks priority from low number to high number. This
@@ -136,17 +136,17 @@ l. Select the pool members **10.128.20.11** and **10.128.20.12** and set
    number of active members in our high priority group has dropped below
    one.
 
-6. Select the member in the Priority Group 2 and Disable that pool
+#. Select the member in the Priority Group 2 and Disable that pool
    member.
 
-   s. Select the **Disable** button
+   #. Select the **Disable** button
 
-|image5|
+      |image5|
 
-t. The status indicator now goes to black, indicating the member has
-   been disabled
+   #. The status indicator now goes to black, indicating the member has
+      been disabled
 
-7. Once again, select **Statistics**, reset the pool statistics, browse
+#. Once again, select **Statistics**, reset the pool statistics, browse
    to the virtual server and see which pool members are taking hits now.
 
 Once you are done testing re-enable your disabled pool member.
