@@ -302,7 +302,7 @@ together.
 
 #. Go to **Monitors** and click on **http**
 
-   #.Click the **Test** tab
+   #. Click the **Test** tab
 
    #. Under **Address** plug in **10.1.20.11** and in the port field
       plug in **80**
