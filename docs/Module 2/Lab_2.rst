@@ -26,9 +26,9 @@ Creating VLANs
       #. **Tag**: <leave blank>
 
          #. Entering a tag is only required for “\ **Tagged**\ ” (802.1q)
-          interfaces. “\ **Untagged**\ ” interfaces will automatically
-          get a tag which is used for internal L2 segmentation of
-          traffic.
+           interfaces. “\ **Untagged**\ ” interfaces will automatically
+           get a tag which is used for internal L2 segmentation of
+           traffic.
 
    #. Under **Resources** in the **Interfaces** section:
 
@@ -36,12 +36,11 @@ Creating VLANs
 
       #. **Tagging**: Untagged
 
-      #. Select the **Add** button. Leave all other items at the default
-        setting.
+      #. Select the **Add** button. Leave all other items at the default setting.
 
 ..
 
-   |image1|
+|image1|
 
       #. When you have completed your VLAN configuration, hit the **Finished** button
 
@@ -54,11 +53,11 @@ Assigning a Self IP addresses to your VLANs
 
 ..
 
-   |image15|
+|image15|
 
    #. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
-..
+::
 
                              **Server-Side                     Client-side**
 
