@@ -26,9 +26,9 @@ Creating VLANs
       #. **Tag**: <leave blank>
 
          #. Entering a tag is only required for “\ **Tagged**\ ” (802.1q)
-           interfaces. “\ **Untagged**\ ” interfaces will automatically
-           get a tag which is used for internal L2 segmentation of
-           traffic.
+            interfaces. “\ **Untagged**\ ” interfaces will automatically
+            get a tag which is used for internal L2 segmentation of
+            traffic.
 
    #. Under **Resources** in the **Interfaces** section:
 
