@@ -247,10 +247,9 @@ its basic authentication capabilities.
       #. Enter **user.1**/**password** for the **Username** and
           **Password**
 
-|image10|
+         |image10|
 
-   #. Click **Finish** and you will be taken back to **Local Traffic >>
-      Monitors**
+   #. Click **Finish** and you will be taken back to **Local Traffic >> Monitors**
 
 #. Where is your new Monitor?
 
@@ -258,8 +257,7 @@ its basic authentication capabilities.
       Monitors list. Here you can go to the next page or view all
       Monitors
 
-   #. You can change the number of records displayed per page in
-      S\ **ystem >> Preferences**
+   #. You can change the number of records displayed per page in **System >> Preferences**
 
 #. Go to **Local Traffic >> Pools >> www_pool** and choose **Properties** from the top bar
 
@@ -278,7 +276,7 @@ its basic authentication capabilities.
 
    #. What is the status of the pool and its members?
 
-15. Go to **Local Traffic >> Virtual Servers**. What is the status of
+#. Go to **Local Traffic >> Virtual Servers**. What is the status of
     your virtual server?
 
    #. Browse to your **www_vs** virtual server. Which members are
