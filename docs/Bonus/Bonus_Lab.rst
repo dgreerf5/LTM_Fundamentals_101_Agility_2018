@@ -11,7 +11,7 @@ Building a new traffic group and floating IP.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 1. On your **Active** BIG-IP, go to **Device Management >> Traffic
-   Groups** and hit **Create**
+   Groups** and hit **Create**\
 
    1a. Use the f5.http template, which was designed for general web
       services
@@ -36,7 +36,7 @@ Building a new traffic group and floating IP.
 Building an HTTP application using an iApp template.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **iApp >> Application** **Services** and hit **Create**.
+1. Go to **iApp >> Application** **Services** and hit **Create**
 
    1a. Use the f5.http template, which was designed for general web
       services
