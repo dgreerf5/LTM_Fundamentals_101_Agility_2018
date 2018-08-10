@@ -97,8 +97,7 @@ or during an outage.
 
       #.  Set the **Load Balancing Method** back to **Round Robin**
 
-      #. Set the **Priority Group Activation** to **Less than …**
-            **2** Available Members.
+      #. Set the **Priority Group Activation** to **Less than …** **2** Available Members.
 
          |image3|
 
@@ -164,30 +163,30 @@ Default Monitors
 
 1. Go to **Local Traffic >> Nodes**, note the status of the nodes.
 
-   u. Note that the nodes exist in this table, even though they were
+   #. Note that the nodes exist in this table, even though they were
       never specifically configured in the Node section of the GUI. Each
       time a unique IP address is placed in a pool a corresponding node
       entry is added and assigned the default monitor (if any).
 
-   v. Select the **Default Monitors** tab.
+   #. Select the **Default Monitors** tab.
 
-|image6|
+      |image6|
 
-w. Notice we have several options. For nodes you will want a generic
-   monitor, so we will choose **icmp**.
+   #. Notice we have several options. For nodes you will want a generic
+      monitor, so we will choose **icmp**.
 
-x. Select **icmp** from the **Available** box and hit |image7| to place
-   it in the **Active** box.
+   #. Select **icmp** from the **Available** box and hit |image7| to place
+      it in the **Active** box.
 
-y. Click on the **Update** button to finalize your changes.
+   #. Click on the **Update** button to finalize your changes.
 
-8. Select **Node List** or **Statistics** from the top tab.
+#. Select **Node List** or **Statistics** from the top tab.
 
-   z. What are your node statuses?
+   #. What are your node statuses?
 
-9. Select **Statistics >> Module Statistics >> Local Traffic**
+#. Select **Statistics >> Module Statistics >> Local Traffic**
 
-   a. What are the statuses of your nodes, pool and virtual server?
+   #. What are the statuses of your nodes, pool and virtual server?
 
 For those of you who did the **FQDN Pool** extra credit lab, you will
 notice your FQDN in the node list. The status should be **Available**
@@ -205,90 +204,88 @@ supports. We are now going to create a monitor to specifically test the
 application we are interested in. We are going to check our web site and
 its basic authentication capabilities.
 
-10. Browse to **http://10.1.10.100** and on the web page select the
-    **Basic Authentication** link under **Authentication Examples**.
+#. Browse to **http://10.1.10.100** and on the web page select the
+   **Basic Authentication** link under **Authentication Examples**.
 
-    b. User: **user.1**
+   #. User: **user.1**
 
-    c. Password: **password**
+   #. Password: **password**
 
-    d. You could use text from this page or text within the source code
-       to test for availability. You could also use HTTP statuses or
-       header information. You will be looking for the HTTP status
-       “\ **200 OK**\ ” as your receive string to determine
-       availability.
+   #. You could use text from this page or text within the source code
+      to test for availability. You could also use HTTP statuses or
+      header information. You will be looking for the HTTP status
+      “\ **200 OK**\ ” as your receive string to determine
+      availability.
 
-    e. Note the URI is **/basic**. You will need this for your monitor.
+   #. Note the URI is **/basic**. You will need this for your monitor.
 
-11. Select **Local Traffic >> Monitor** on the side-bar and select the
-    plus (**+**) sign or **Create**
+#. Select **Local Traffic >> Monitor** on the side-bar and select the
+   plus (**+**) sign or **Create**
 
-|image8|
+   |image8|
 
-f. Now we can create a monitor to check the content of our web page to
-   ensure things are running properly.
+   #. Now we can create a monitor to check the content of our web page to
+      ensure things are running properly.
 
-   xv.  **Name**: www_test
+      #. **Name**: www_test
 
-   xvi. **Type**: HTTP
+      #. **Type**: HTTP
 
-|image9|
+         |image9|
 
-g. Once you have selected you parent **(Type)** monitor, you can access
-   the **Configuration** section
 
-   xvii.  **Send String**: Enter the command to retrieve the page you
+   #. Once you have selected you parent **(Type)** monitor, you can access
+      the **Configuration** section
+
+      #.  **Send String**: Enter the command to retrieve the page you
           want “\ **GET /basic/\r\n**\ ” (no quotes)
 
-   xviii. In the Receive String box put “\ **200 OK**\ ” (no quotes)
+      #. In the Receive String box put “\ **200 OK**\ ” (no quotes)
 
-          2. **NOTE**: The receive string is not case sensitive.
+         #. **NOTE**: The receive string is not case sensitive.
 
-   xix.   Enter **user.1**/**password** for the **Username** and
+      #. Enter **user.1**/**password** for the **Username** and
           **Password**
 
-|image10|
+         |image10|
 
-h. Click **Finish** and you will be taken back to **Local Traffic >>
-   Monitors**
+   #. Click **Finish** and you will be taken back to **Local Traffic >> Monitors**
 
-12. Where is your new Monitor?
+#. Where is your new Monitor?
 
-    i. |image11|\ **Hint:** Check the lower right hand corner of the
-       Monitors list. Here you can go to the next page or view all
-       Monitors
+   #. |image11|\ **Hint:** Check the lower right hand corner of the
+      Monitors list. Here you can go to the next page or view all
+      Monitors
 
-    j. You can change the number of records displayed per page in
-       S\ **ystem >> Preferences**
+   #. You can change the number of records displayed per page in **System >> Preferences**
 
-13. Go to **Local Traffic >> Pools >> www_pool** and choose
-    **Properties** from the top bar
+#. Go to **Local Traffic >> Pools >> www_pool** and choose **Properties** from the top bar
 
-    k. Remove the **http** monitor from the Active box.
+   #. Remove the **http** monitor from the Active box.
 
-    l. Select the **www_test** monitor from the Available monitor’s
-       window in the **Configuration** section and move it to the Active
-       window.
+   #. Select the **www_test** monitor from the Available monitor’s
+      window in the **Configuration** section and move it to the Active
+      window.
 
-|image12|
+      |image12|
 
-14. Once you have selected your parent (Type) monitor, you can access
+#. Once you have selected your parent (Type) monitor, you can access
     the **Configuration** section
 
-    m. Select **Statistics** from the tabs.
+   #. Select **Statistics** from the tabs.
 
-    n. What is the status of the pool and its members?
+   #. What is the status of the pool and its members?
 
-15. Go to **Local Traffic >> Virtual Servers**. What is the status of
+#. Go to **Local Traffic >> Virtual Servers**. What is the status of
     your virtual server?
 
-    o. Browse to your **www_vs** virtual server. Which members are
-       taking traffic?
+   #. Browse to your **www_vs** virtual server. Which members are
+      taking traffic?
 
-    p. Just for fun reverse the monitor. Now when **200 OK** is returned
-       it indicates the server is not responding successfully. You can
-       see where this would be useful if you were looking for a 404 (bad
-       page) response.
+   #. Just for fun reverse the monitor. Now when **200 OK** is returned
+      it indicates the server is not responding successfully. You can
+      see where this would be useful if you were looking for a 404 (bad
+      page) response.
 
 Monitor Testing
 ~~~~~~~~~~~~~~~
@@ -299,24 +296,25 @@ on the BIG-IP. The functionality is now built in to the monitor itself
 to be less invasive on your infrastructure, and less time consuming all
 together.
 
-16. Go to **Local Traffic >> Pools >> www_pool**
+#. Go to **Local Traffic >> Pools >> www_pool**
 
-    q. Under **Configuration**, move the active monitor to **Available**
+   #. Under **Configuration**, move the active monitor to **Available**
 
-17. Go to **Monitors** and click on **http**
+#. Go to **Monitors** and click on **http**
 
-    r. Click the **Test** tab
+   #. Click the **Test** tab
 
-    s. Under **Address** plug in **10.1.20.11** and in the port field
-       plug in **80**
+   #. Under **Address** plug in **10.1.20.11** and in the port field
+      plug in **80**
 
-    t. Click **Test**
+   #. Click **Test**
 
-|image13|
+      |image13|
 
-u. Go back to **Local Traffic >> Pools >> www_pool**
 
-   xx. Once here, move **http** back to **Active**
+   #. Go back to **Local Traffic >> Pools >> www_pool**
+
+      #. Once here, move **http** back to **Active**
 
 Persistence Labs
 ~~~~~~~~~~~~~~~~
@@ -346,199 +344,189 @@ Lab Requirements:
 Simple (Source Address) Persistence
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **Local** **Traffic >> Profiles** and select the
+#. Go to **Local** **Traffic >> Profiles** and select the
    **Persistence** tab.
 
-   a. From the **Persistence Profiles** screen select the **Create**
+   #. From the **Persistence Profiles** screen select the **Create**
       button.
 
-|image14|
+      |image14|
 
-b. At the **New Persistence Profile** screen enter:
+   #. At the **New Persistence Profile** screen enter:
 
-   i.  **Name**: my-src-persist
+      #. **Name**: my-src-persist
 
-   ii. **Persistence** **Type**: Source Address Affinity
+      #. **Persistence** **Type**: Source Address Affinity
 
-|image15|
+         |image15|
 
-c. This will add the **Configuration** section to the **General**
-   **Properties** section.
+   #. This will add the **Configuration** section to the **General**
+      **Properties** section.
 
-   iii. Note the parent profile.
+      #. Note the parent profile.
 
-d. In the **Configuration** section, set the
+   #. In the **Configuration** section, set the
 
-   iv. **Timeout**: 60 seconds
+      #. **Timeout**: 60 seconds
 
-   v.  **Prefix Length**: None
+      #. **Prefix Length**: None
 
-       1. This is the default and is a /32 prefix (255.255.255.255
-          mask).
+         #. This is the default and is a /32 prefix (255.255.255.255
+            mask).
 
-       2. Each new IP address will create a new persistence record.
+         #. Each new IP address will create a new persistence record.
 
-   vi. **Hint**: You can’t change these settings until you have checked
-       the Custom box. This prevents unwanted or unauthorized changes
-       from within the GUI, without explicitly allowing it. Also, it
-       allows you to know what has changed from the default settings.
+      #. **Hint**: You can’t change these settings until you have checked
+         the Custom box. This prevents unwanted or unauthorized changes
+         from within the GUI, without explicitly allowing it. Also, it
+         allows you to know what has changed from the default settings.
 
-e. You have just created your first custom Profile.
+   #. You have just created your first custom Profile.
 
-   vii. Note the check box for your new custom profile isn’t grayed out
-        and can be selected to allow you to delete the profile if
-        desired.
+      #. Note the check box for your new custom profile isn’t grayed out
+         and can be selected to allow you to delete the profile if
+         desired.
 
-2. Now let’s attach our new profile to the virtual server.
+#. Now let’s attach our new profile to the virtual server.
 
-   f. Go to **Local Traffic >> Virtual Server** and ….
+   #. Go to **Local Traffic >> Virtual Server** and ….
 
-      viii. Select **www_vs** and the **Resources** tab or ….
+      #. Select **www_vs** and the **Resources** tab or ….
 
-      ix.   Take the shortcut directly to the **Resources** of the
-            virtual server. (Can you find it?)
+      #. Take the shortcut directly to the **Resources** of the
+         virtual server. (Can you find it?)
 
-**Note:** When we created the Virtual Server, everything was on a single
-page. We find when we return to modify the Virtual Server the Properties
-and Resources are on different pages.
+   #. Set the **Default Persistence Profile** to **my-src-persist**.
 
-g. Set the **Default Persistence Profile** to **my-src-persist**.
+      |image16|
 
-|image16|
+   #. Don’t forget to **Update** before leaving the page. *(Be careful, the
+      reminders will stop!)*
 
-h. Don’t forget to **Update** before leaving the page. *(Be careful, the
-   reminders will stop!)*
+   #. Testing Source Address Affinity
 
-i. Testing Source Address Affinity
+      #.  At this point you may want to open a second browser window to
+          the management GUI.
 
-   x.   At this point you may want to open a second browser window to
-        the management GUI.
+      #. From one management window go to **Statistics >> Module Statistic >> Local Traffic**
 
-   xi.  From one management window go to **Statistics >> Module
-        Statistic >> Local Traffic**
+      #. Select **Persistence Records** for the **Statistics Type** menu
 
-   xii. Select **Persistence Records** for the **Statistics Type** menu
+         |image17|
 
-|image17|
-
-3. At this point you will see that the Persistence Records statistics
+#. At this point you will see that the Persistence Records statistics
    display has been disabled (way back in v12.1). A TMSH database
    command is required to activate it.
 
-   j. SSH to you BIG-IP at 10.1.1.245. Username: **root** Password:
+   #. SSH to you BIG-IP at 10.1.1.245. Username: **root** Password:
       **default**
 
-   k. At the prompt enter: **tmsh**
+   #. At the prompt enter: **tmsh**
 
-   l. At the TMSH prompt enter the command in the **Persistence Value**
-      GUI.
+   #. At the TMSH prompt enter the command in the **Persistence Value** GUI.
 
-      xiii. **modify sys db
-            ui.statistics.modulestatistics.localtraffic.persistencerecords
-            value true**
+      #. **modify sys db ui.statistics.modulestatistics.localtraffic.persistencerecords value true**
 
-            3. Tab completion will make this a little easier
+         #. Tab completion will make this a little easier
 
-4. Now, in this window you can watch your persistence records. You may
+#. Now, in this window you can watch your persistence records. You may
    want to set **Auto Refresh** to 20 seconds.
 
-|image18|
+   |image18|
 
-5. In your other management GUI window go to **www_pool** and clear the
+#. In your other management GUI window go to **www_pool** and clear the
    member statistics.
 
-   m. Open a browser session to your virtual server and refresh several
+   #. Open a browser session to your virtual server and refresh several
       times.
 
-   n. How many members are taking traffic?
+   #. How many members are taking traffic?
 
-   o. Check you **Persists Records** window. Are there any persistence
+   #. Check you **Persists Records** window. Are there any persistence
       records?
 
-      xiv. If you are not Auto Refreshing, don’t forget to hit
-           **Refresh**
+      #. If you are not Auto Refreshing, don’t forget to hit
+         **Refresh**
 
-   p. Refresh you web page prior to the **Age column** reaching **60.**
+   #. Refresh you web page prior to the **Age column** reaching **60.**
       What happens?
 
 Cookie Persistence (Cookie Insert)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **Local Traffic >> Profiles >> Persistence** tab and hit
-   **Create**
+#. Go to **Local Traffic >> Profiles >> Persistence** tab and hit **Create**
 
-a. Let’s name our profile **my_cookie_insert** (original isn’t it)
+   #. Let’s name our profile **my_cookie_insert** (original isn’t it)
 
-b. Our **Persistence Type** will be **Cookie**
+   #. Our **Persistence Type** will be **Cookie**
 
-c. This brings us to the **Configuration** section.
+   #. This brings us to the **Configuration** section.
 
-|image19|
+      |image19|
 
-2. As you can see, the default **Cookie Method** is **HTTP** **Cookie**
+#. As you can see, the default **Cookie Method** is **HTTP** **Cookie**
    **Insert**, so we won’t have to modify the **Cookie Method**
 
-a. The BIG-IP will also create a cookie name for you using a combination
-   of “\ **BIGipServer**\ ” and the pool name the virtual server
-   service. We will take this default also.
+   #. The BIG-IP will also create a cookie name for you using a combination
+      of “\ **BIGipServer**\ ” and the pool name the virtual server
+      service. We will take this default also.
 
-b. We will use a **session** cookie. Which means the cookie is deleted
-   when the browser is closed.
+   #. We will use a **session** cookie. Which means the cookie is deleted
+      when the browser is closed.
 
-c. Select **Finished**
+   #. Select **Finished**
 
-d. Now attach your cookie persistence profile to your virtual server’s
-   **Default Persistence Profile** by:
+   #. Now attach your cookie persistence profile to your virtual server’s
+      **Default Persistence Profile** by:
 
-   a. Go to **Local Traffic >> Virtual Server >> www_vs >> Resources**
-      tab
+      #. Go to **Local Traffic >> Virtual Server >> www_vs >> Resources**
+         tab
 
-   b. Set the **Default Persistence Profile** to **my_cookie_insert**
+      #. Set the **Default Persistence Profile** to **my_cookie_insert**
 
-   c. Hit **Update**
+      #. Hit **Update**
 
-e. Whoa! Did you just get this error message?
+   #. Whoa! Did you just get this error message?
 
-|image20|
+      |image20|
 
-f. Remember what we said earlier about some Profiles requiring
-   prerequisite Profiles? Since we are looking in the HTTP header for
-   the cookie the prerequisite for the Cookie Profile is the HTTP
-   profile.
+   #. Remember what we said earlier about some Profiles requiring
+      prerequisite Profiles? Since we are looking in the HTTP header for
+      the cookie the prerequisite for the Cookie Profile is the HTTP
+      profile.
 
-3. We will have to go to the virtual server to add the HTTP profile,
+#. We will have to go to the virtual server to add the HTTP profile,
    prior to adding the Cookie Persistence profile.
 
-   a. Select the **Properties** tab on your virtual server
+   #. Select the **Properties** tab on your virtual server
 
-   b. Go to **HTTP Profile** in the **Configuration** section and select
+   #. Go to **HTTP Profile** in the **Configuration** section and select
       the default HTTP (**http**) profile.
 
-|image21|
+      |image21|
 
-c. Hit the **Update** button
+   #. Hit the **Update** button
 
-d. Now we can go back to the **Resource** tab and add our cookie
-   persistence profile.
+   #. Now we can go back to the **Resource** tab and add our cookie
+      persistence profile.
 
-4. Testing cookie persistence.
+#. Testing cookie persistence.
 
-   e. If you wish you can watch the member statistics to validate your
+   #. If you wish you can watch the member statistics to validate your
       persistence.
 
-   f. Open a new browser session to your virtual server and refresh
+   #. Open a new browser session to your virtual server and refresh
       several times.
 
-   g. Does the page ever change?
+   #. Does the page ever change?
 
-   h. Did you hit a different server?
+   #. Did you hit a different server?
 
-   i. Refresh several times. Are you hitting the same server?
+   #. Refresh several times. Are you hitting the same server?
 
-      xv. On the web page under **HTTP Request and Response
-          Information** click the **Display Cookie** link.
+      #. On the web page under **HTTP Request and Response Information** click the **Display Cookie** link.
 
-|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLd1d56cb.PNG|
+         |image23|
 
 Archive your work in the file: **lab3_lb_monitor_and_persist**
 
@@ -608,6 +596,6 @@ Archive your work in the file: **lab3_lb_monitor_and_persist**
 .. |image21| image:: media/image22.png
    :width: 4.19444in
    :height: 5.45605in
-.. |C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTMLd1d56cb.PNG| image:: media/image23.png
+.. |image23| image:: media/image23.png
    :width: 4.40712in
    :height: 3.80556in
