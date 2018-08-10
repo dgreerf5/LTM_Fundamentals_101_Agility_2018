@@ -87,8 +87,8 @@ Go to **Network >> Self IPs**, select **Create**.
       pass through without issue as any object created on the F5 is by
       default allowed to pass through.
 
-#. When you have completed your self-IP configuration, hit the |image3|
-   button. You should have something similar to the following
+When you have completed your self-IP configuration, hit the |image3|
+button. You should have something similar to the following
 
    |image4|
 
@@ -176,11 +176,11 @@ statistical interfaces.
 +-------------+------------------+
 
 
-            #. As you enter each IP address and port combination, hit the **Add** button
-
-   #. When you have completed your pool configuration, hit the **Finished** button
+      #. As you enter each IP address and port combination, hit the **Add** button
 
       |image8|
+
+When you have completed your pool configuration, hit the **Finished** button
 
 Creating Virtual Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -220,8 +220,6 @@ Now let’s build our virtual server
 
       #. **Source Address Translation**: Auto Map
 
-..
-
       |image10|
 
    #. Under **Resources**
@@ -234,10 +232,9 @@ Now let’s build our virtual server
 
       #. **Fallback Persistence Profile**: None
 
-#. When you have completed your virtual server configuration, hit the
-   **Finished** button
+When you have completed your virtual server configuration, hit the **Finished** button
 
-#. You have now created a Virtual Server (Note: Items in blue are links)
+You have now created a Virtual Server (Note: Items in blue are links)
 
    |image11|
 
@@ -270,11 +267,11 @@ Now let’s build our virtual server
       #. Note the Source and Destination address when you go to directly
          and through the virtual server
 
-#. Let’s archive our configuration in case we have to fall back later.
+*. Let’s archive our configuration in case we have to fall back later.
 
-   #. Go to **System >> Archives** and select **Create**.
+   *. Go to **System >> Archives** and select **Create**.
 
-      #. Name your archive **lab2_the_basics_net_pool_vs**
+      *. Name your archive **lab2_the_basics_net_pool_vs**
 
 
 .. |image0| image:: media/image1.png
