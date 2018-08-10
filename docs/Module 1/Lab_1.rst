@@ -55,7 +55,7 @@ Access the Lab Environment
 
 |image3| 
 
-      #. For example: **Go to Local Traffic >> Virtual Servers >> Virtual**
+      #. For example: **Go to Local Traffic >> Virtual Servers >> Virtual List**
 
 .. |image0| image:: media/image1.png
    :width: 3.35294in
