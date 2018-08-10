@@ -16,70 +16,70 @@ Objectives:
 Ratio Load Balancing
 ~~~~~~~~~~~~~~~~~~~~
 
-1. Go to Local **Traffic >> Pools** and select **www_pool** and then
+#. Go to Local **Traffic >> Pools** and select **www_pool** and then
    **Members** from the top bar or you could click on the **Members**
    link in the Pool List screen.
 
 |image0|
 
-a. Note: When we created the pool, we performed all of our
-   configurations on one page, but when we modify a pool the
-   **Resource** information is under the **Members** tab
+   #. Note: When we created the pool, we performed all of our
+      configurations on one page, but when we modify a pool the
+      **Resource** information is under the **Members** tab
 
-2. Under **Load** **Balancing** section
+#. Under **Load** **Balancing** section
 
-   b. Change the **Load** **Balancing** **Method** to **Ratio (Member)**
+   #. Change the **Load** **Balancing** **Method** to **Ratio (Member)**
 
-   c. As you look at the drop-down menu, notice most load balancing
+   #. As you look at the drop-down menu, notice most load balancing
       methods have two options: (Node) or (Member). Remember the
       difference?
 
-|image1|
+      |image1|
 
-d. Don’t forget the **Update** button
+   #. Don’t forget the **Update** button
 
-e. Then under **Current Members**
+   #. Then under **Current Members**
 
-   i.  Select the first member in the pool **10.1.20.11:80**.
+      #.  Select the first member in the pool **10.1.20.11:80**.
 
-   ii. Under the **Configuration** section
+      #. Under the **Configuration** section
 
-       1. Change the **Ratio** of the member to 3
+         #. Change the **Ratio** of the member to 3
 
-|image2|
+         |image2|
 
-f. Select the **Update** button
+   #. Select the **Update** button
 
-3. Verification
+#. Verification
 
-   g. Check the pool statistics by selecting **Statistics** on the top
+   #. Check the pool statistics by selecting **Statistics** on the top
       bar, if you are still in **Local Traffic >> Pools**, or by going
       to **Statistics >> Module Statistics >> Local Traffic** and
       selecting **Pool** from **Statistics Type**.
 
-   h. Reset the statistics for your **www_pool** pool by checking the
+   #. Reset the statistics for your **www_pool** pool by checking the
       boxes next to the pool members and hitting the **Reset** button
 
-      iii. Browse to your **www_vs** **(10.1.10.100)** virtual server
+      #. Browse to your **www_vs** **(10.1.10.100)** virtual server
 
-      iv.  Refresh the browser screen several times (use “<ctrl>” F5)
+      #.  Refresh the browser screen several times (use “<ctrl>” F5)
 
-      v.   Select the **Refresh** button on the **Statistics** screen
+      #. Select the **Refresh** button on the **Statistics** screen
 
-      vi.  How many total connections has each member taken?
+      #. How many total connections has each member taken?
 
-      vii. Is the ratio of connections correct between the members?
+      #. Is the ratio of connections correct between the members?
 
-   i. Now go back and put the pool load balancing method back to Round
+   #. Now go back and put the pool load balancing method back to Round
       Robin
 
-      viii. Reset the statistics
+      #. Reset the statistics
 
-      ix.   Refresh the virtual server page several times
+      #. Refresh the virtual server page several times
 
-      x.    Refresh the statistics
+      #. Refresh the statistics
 
-      xi.   Does the ratio setting have any impact now?
+      #. Does the ratio setting have any impact now?
 
 Priority Groups Lab
 ~~~~~~~~~~~~~~~~~~~
