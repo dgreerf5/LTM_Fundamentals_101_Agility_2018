@@ -262,10 +262,10 @@ You have now created a Virtual Server (Note: Items in blue are links)
       *  Did each pool member receive the same number of connections?
 
       *  Did each pool member receive approximately the same number of
-          bytes?
+         bytes?
 
       * Note the Source and Destination address when you go to directly
-         and through the virtual server
+        and through the virtual server
 
 * Let’s archive our configuration in case we have to fall back later.
 
