@@ -42,11 +42,11 @@ Archive the current configuration and perform a health check using a QKview
 
       #. This is a little more detailed than **Local Traffic >> Network Map**
 
-   #. If you want to see some interesting CLI commands, go to **Commands >> Standard** and expand **tmsh** then **LTM** and click on **show /ltm virtual** toward the bottom
+   e. If you want to see some interesting CLI commands, go to **Commands >> Standard** and expand **tmsh** then **LTM** and click on **show /ltm virtual** toward the bottom
 
    #. Under **Files >> config** you can view the **bigip.conf** file and see the command lines you used for you build
 
-      #. All of the **log** files are here too
+   #. All of the **log** files are here too
 
    #. Feel free to just poke around
 
@@ -57,7 +57,7 @@ Troubleshoot using TCPDump or Curl.
 
    a. Now browse the web site. You will not be able to access it even though the status of the virtual is available.
 
-      1. Because the BIG-IP is not the server’s default gateway of the servers their response goes around the BIG-IP.
+   #. Because the BIG-IP is not the server’s default gateway of the servers their response goes around the BIG-IP.
 
    #. The web administrator tells you everything is fine as far as he can see and thinks the issue is with the BIG-IP, because they ALWAYS think the issue is with the BIG-IP
 
@@ -67,14 +67,11 @@ Troubleshoot using TCPDump or Curl.
 
    **Remember the BIG-IP is a full proxy. You will need two dumps and therefore two SSH windows for the client-side connection and the server-side connection.**
 
-   a. First let’s see if we are hitting the virtual server. At the Linux
-      CLI prompt:
+   a. First let’s see if we are hitting the virtual server. At the Linux CLI prompt:
 
    #. **tcpdump –i <client vlan name> host –X –s128 10.1.10.100 and port 80**
 
-         1. This is a little overkill, but a good example of syntax. We
-            will only look at traffic headed for the virtual server. We
-            will see the first 128 bytes (-s128) in ASCII (-X).
+         1. This is a little overkill, but a good example of syntax. We will only look at traffic headed for the virtual server. We will see the first 128 bytes (-s128) in ASCII (-X).
 
    #. Go to your browser and attempt to access the virtual server. You should see something like this:
 
@@ -132,7 +129,7 @@ Troubleshoot using TCPDump or Curl.
 
    a. **tcpdump –i <server vlan name> -X –s128 host <client IP>**
 
-   #. Hit your virtual server again. As you can see, we are sending packers to the pool members. They just aren’t responding so we can reasonably suspect it’s a server issue.
+   #. Hit your virtual server again. As you can see, we are sending packets to the pool members. They just aren’t responding so we can reasonably suspect it’s a server issue.
 
 4. It could be a port issue. Let’s check to see if the server is responding on port 80. On the BIG-IP, in an SSH window:
 
