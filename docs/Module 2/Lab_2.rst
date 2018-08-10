@@ -47,11 +47,11 @@ Create another untagged VLAN named **server_vlan** on interface **1.2.**
 Assigning a Self IP addresses to your VLANs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. Go to **Network >> Self IPs**, select **Create**.
+Go to **Network >> Self IPs**, select **Create**.
 
 |image15|
 
-   #. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
+#. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
 ::
 
@@ -68,31 +68,30 @@ Assigning a Self IP addresses to your VLANs
       **Port** **Lockdown**:  Allow None                        Allow None
 \
 
-      #. The default “\ **Allow** **None**\ ” means the Self IP would
-         respond only to ICMP.
+   #. The default “\ **Allow** **None**\ ” means the Self IP would
+      respond only to ICMP.
    
-      #. The “\ **Allow** **Defaults**\ ” selection opens the following
-         on the self IP of the VLAN
+   #. The “\ **Allow** **Defaults**\ ” selection opens the following
+      on the self IP of the VLAN
 
-         #. TCP: ssh, domain, snmp, https
+      #. TCP: ssh, domain, snmp, https
 
-         #. TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
+      #. TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
 
-         #. UDP: 520, cap, domain, f5-iquery, snmp
+      #. UDP: 520, cap, domain, f5-iquery, snmp
 
-         #. PROTOCOL: ospf
+      #. PROTOCOL: ospf
 
-      #. **NOTE:** Even with **“Allow None”** chosen, traffic destined
-         for a virtual server or object on the F5 (e.g. NAT) are able to
-         pas through without issue as any object created on the F5 is by
-         default allowed to pass through.
+   #. **NOTE:** Even with **“Allow None”** chosen, traffic destined
+      for a virtual server or object on the F5 (e.g. NAT) are able to
+      pass through without issue as any object created on the F5 is by
+      default allowed to pass through.
 
-   #. When you have completed your self-IP configuration, hit the |image3|
-      button. You should have something similar to the following
+#. When you have completed your self-IP configuration, hit the |image3|
+   button. You should have something similar to the following
 
-      |image4|
+   |image4|
 
-**
 
 Assigning the Default Gateway
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
