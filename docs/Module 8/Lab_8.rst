@@ -109,15 +109,15 @@ Configure HA
 
 #. On each BIG-IP check the other BIG-IP in the **Device Trust Members** list. **Is all the information there?**
 
-   ..
-
-      |image0|
+   .. image:: media/image1.png
+      :width: 5.57547in
+      :height: 0.64571in
 
 #. If some information is missing delete the trust and try again
 
-   ..
-
-      |image1|
+   .. image:: media/image2.png
+      :width: 5.57547in
+      :height: 0.62307in
 
 #. What are the statuses of your BIG-IPs now?
 
