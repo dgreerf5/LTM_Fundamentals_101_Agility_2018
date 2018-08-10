@@ -15,7 +15,7 @@ Creating VLANs
 
 #. From the sidebar select **Network** **>> VLANs** then select **Create**
 
-|image0|
+   |image0|
 
    #. Under **General Properties**:
 
