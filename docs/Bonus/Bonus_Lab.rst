@@ -36,24 +36,18 @@ Building a new traffic group and floating IP.
 Building an HTTP application using an iApp template.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **iApp >> Application** **Services** and hit **Create**
+#. Go to **iApp >> Application** **Services** and hit **Create**
 
-   1a. Use the f5.http template, which was designed for general web
+   #. Use the f5.http template, which was designed for general web
       services
-
-      1.1a.  Set the **Template Selection** to **Advanced**
-
-      1.1b.  **Name**: my_new_iapp
-
-      1.1c.  **Traffic Group:** iapp_tg (floating)
-
-           1. You will have to uncheck the **Inherit traffic group from
-              current partition / path**.
-
-      1.1d.  Under **Template Options**
-
-           1. Select the **Advanced – Configure advanced options** for the
-              configuration mode
+      #.  Set the **Template Selection** to **Advanced**
+      #.  **Name**: my_new_iapp
+      #.  **Traffic Group:** iapp_tg (floating)
+         #. You will have to uncheck the **Inherit traffic group from
+            current partition / path**.
+      #.  Under **Template Options**
+         #. Select the **Advanced – Configure advanced options** for the
+            configuration mode
 
       1.1e. Under the **Network** tab
 
