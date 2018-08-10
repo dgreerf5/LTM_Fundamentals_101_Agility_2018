@@ -71,7 +71,7 @@ Assigning a Self IP addresses to your VLANs
 
    #. **Port** **Lockdown**:  Allow None                        Allow None
 
-::
+
       #. The default “\ **Allow** **None**\ ” means the Self IP would
          respond only to ICMP.
    
