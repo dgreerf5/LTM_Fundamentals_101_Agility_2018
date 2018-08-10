@@ -255,23 +255,23 @@ You have now created a Virtual Server (Note: Items in blue are links)
 
 |image13|
 
-   #. Go to **Local** **Traffic >> Virtual Servers >> Statistics**
+   * Go to **Local** **Traffic >> Virtual Servers >> Statistics**
 
-   #. Go to **Local** **Traffic >> Pools >> Statistics**
+   * Go to **Local** **Traffic >> Pools >> Statistics**
 
-      #.  Did each pool member receive the same number of connections?
+      *  Did each pool member receive the same number of connections?
 
-      #.  Did each pool member receive approximately the same number of
+      *  Did each pool member receive approximately the same number of
           bytes?
 
-      #. Note the Source and Destination address when you go to directly
+      * Note the Source and Destination address when you go to directly
          and through the virtual server
 
-*. Let’s archive our configuration in case we have to fall back later.
+* Let’s archive our configuration in case we have to fall back later.
 
-   *. Go to **System >> Archives** and select **Create**.
+   * Go to **System >> Archives** and select **Create**.
 
-      *. Name your archive **lab2_the_basics_net_pool_vs**
+      * Name your archive **lab2_the_basics_net_pool_vs**
 
 
 .. |image0| image:: media/image1.png
