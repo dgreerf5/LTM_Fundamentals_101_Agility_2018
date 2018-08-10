@@ -168,7 +168,7 @@ statistical interfaces.
       #.  **Priority Group Activation**: <leave at default>
 
       #. **New Members**:
-::
+
 
 +-------------+------------------+
 | **Address** | **Service Port** |
@@ -180,7 +180,7 @@ statistical interfaces.
 | 10.1.20.13  | 80               |
 +-------------+------------------+
 
-\
+
             #. As you enter each IP address and port combination, hit the **Add** button
 
    #. When you have completed your pool configuration, hit the **Finished** button
