@@ -61,15 +61,15 @@ Assigning a Self IP addresses to your VLANs
 
                              **Server-Side                     Client-side**
 
-   #. **Name**:               server_ip                        client_ip
+      **Name**:               server_ip                        client_ip
 
-   #. **IP Address**:         10.1.20.245                      10.1.10.245
+      **IP Address**:         10.1.20.245                      10.1.10.245
 
-   #. **Netmask**:           255.255.255.0                    255.255.255.0
+      **Netmask**:           255.255.255.0                    255.255.255.0
 
-   #. **VLAN**:              server_vlan                       client_vlan
+      **VLAN**:              server_vlan                       client_vlan
 
-   #. **Port** **Lockdown**:  Allow None                        Allow None
+      **Port** **Lockdown**:  Allow None                        Allow None
 \
 
       #. The default “\ **Allow** **None**\ ” means the Self IP would
