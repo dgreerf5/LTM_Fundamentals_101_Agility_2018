@@ -40,7 +40,7 @@ Creating VLANs
 
 ..
 
-|image1|
+         |image1|
 
 When you have completed your VLAN configuration, hit the **Finished** button
    
@@ -53,7 +53,7 @@ Assigning a Self IP addresses to your VLANs
 
 ..
 
-|image15|
+   |image15|
 
    #. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
@@ -94,7 +94,7 @@ Assigning a Self IP addresses to your VLANs
    #. When you have completed your self-IP configuration, hit the |image3|
       button. You should have something similar to the following
 
-|image4|
+      |image4|
 
 **
 
@@ -106,7 +106,7 @@ Assigning the Default Gateway
    #. Here is where we assign our default gateway (and other static
       routes as desired)
 
-|image5|
+      |image5|
 
    #. Under **Properties**
 
@@ -148,7 +148,7 @@ statistical interfaces.
 #. From the sidebar, select **Local Traffic >>** **Pools** then select
    **Create**. Here we will create our new pool
 
-|image7|
+   |image7|
 
    #. Under **Configuration**:
 
@@ -185,7 +185,7 @@ statistical interfaces.
 
    #. When you have completed your pool configuration, hit the **Finished** button
 
-|image8|
+      |image8|
 
 Creating Virtual Servers
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -194,7 +194,7 @@ Now let’s build our virtual server
 
 #. Under **Local Traffic** >> **Virtual Servers**, click the **“+”** icon
 
-|image9|
+   |image9|
 
    #. Under **General Properties**
 
@@ -227,7 +227,7 @@ Now let’s build our virtual server
 
 ..
 
-   |image10|
+      |image10|
 
    #. Under **Resources**
 
@@ -244,7 +244,7 @@ Now let’s build our virtual server
 
 #. You have now created a Virtual Server (Note: Items in blue are links)
 
-|image11|
+   |image11|
 
 #. Now let’s see if our virtual server works!
 
