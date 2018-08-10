@@ -38,8 +38,6 @@ Creating VLANs
 
       #. Select the **Add** button. Leave all other items at the default setting.
 
-..
-
          |image1|
 
 When you have completed your VLAN configuration, hit the **Finished** button
@@ -51,9 +49,7 @@ Assigning a Self IP addresses to your VLANs
 
 #. Go to **Network >> Self IPs**, select **Create**.
 
-..
-
-   |image15|
+|image15|
 
    #. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
