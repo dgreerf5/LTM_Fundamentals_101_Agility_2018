@@ -20,9 +20,9 @@ Ratio Load Balancing
    **Members** from the top bar or you could click on the **Members**
    link in the Pool List screen.
 
-|image0|
+   |image0|
 
-   #. Note: When we created the pool, we performed all of our
+      **Note:** When we created the pool, we performed all of our
       configurations on one page, but when we modify a pool the
       **Resource** information is under the **Members** tab
 
