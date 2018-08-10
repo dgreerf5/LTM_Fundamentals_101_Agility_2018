@@ -10,19 +10,19 @@ traffic group.
 Building a new traffic group and floating IP.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#. On your **Active** BIG-IP, go to **Device Management >> Traffic Groups** and hit **Create**
-   #. Use the f5.http template, which was designed for general web services
-      #.  **Name**: iapp_tg
-      #.  Take the defaults for the rest.
+#. On your **Active** BIG-IP, go to **Device Management >> Traffic Groups** and hit **Create**\
+   #. Use the f5.http template, which was designed for general web services\
+      #.  **Name**: iapp_tg\
+      #.  Take the defaults for the rest.\
 
-#. Add a floating Self-IP to the **server_vlan**. Go to **Network >> Self IP**
-   #. **Name:**  server_gateway
-   #. **IP Address:**  10.1.20.240
-   #. **Netmask:**  255.255.255.0
-   #. **VLAN/Tunnel:**  server_vlan
-   #. **Traffic Group:**  iapp_tg (floating)
+#. Add a floating Self-IP to the **server_vlan**. Go to **Network >> Self IP**\
+   #. **Name:**  server_gateway\
+   #. **IP Address:**  10.1.20.240\
+   #. **Netmask:**  255.255.255.0\
+   #. **VLAN/Tunnel:**  server_vlan\
+   #. **Traffic Group:**  iapp_tg (floating)\
 
-Building an HTTP application using an iApp template.
+Building an HTTP application using an iApp template.\
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Go to **iApp >> Application** **Services** and hit **Create**
