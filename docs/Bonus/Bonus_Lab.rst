@@ -12,9 +12,9 @@ Building a new traffic group and floating IP.
 
 1. On your **Active** BIG-IP, go to **Device Management >> Traffic
    Groups** and hit **Create**
-
-   1a. Use the f5.http template, which was designed for general web
-      services
+   
+      1a. Use the f5.http template, which was designed for general web
+          services
 
       1.1a.  **Name**: iapp_tg
 
