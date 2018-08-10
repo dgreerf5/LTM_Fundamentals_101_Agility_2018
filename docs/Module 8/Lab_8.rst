@@ -1,42 +1,28 @@
 Lab 8: Device Service Clusters (DSC) 
 =====================================
 
-We want to familiarize you with the concept of Device and Traffic Groups
-as well as the building of Active-Standby, Active-Active BIG-IP pairs.
-While there is a wizard, for this lab, configuration will be done
-manually. The wizard will only build A/S HA groups. In order to build
-Active-Active and beyond a pair you will need to know the four steps to
-add a device object to a cluster.
+We want to familiarize you with the concept of Device and Traffic Groups as well as the building of Active-Standby, Active-Active BIG-IP pairs.  While there is a wizard, for this lab, configuration will be done manually. The wizard will only build A/S HA groups. In order to build Active-Active and beyond a pair you will need to know the four steps to add a device object to a cluster.
 
 Base Networking and HA VLAN
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You will be creating a high availability cluster using the second BIG-IP
-(**bigip2)** in your lab, so let’s prep our current BIG-IP and create a
-high availability VLAN.
+You will be creating a high availability cluster using the second BIG-IP **(bigip2)** in your lab, so let’s prep our current BIG-IP and create a high availability VLAN.
 
-#. On **BigIpA.f5agility.com** archive your configuration in case you
-   need to revert
+#. On **BigIpA.f5agility.com** archive your configuration in case you need to revert
 
-   a. Go to **System >> Archives** and create a new archive.
+   #. Go to **System >> Archives** and create a new archive.
 
-   b. You will be using your third interface **(1.3)** for Network
-      Failover and ConfigSync. This requires certain ports to be open on
-      the Self IP; TCP port 4353 for ConfigSync, TCP port 1026 for
-      Network Failover and TCP port 6699 for the Master Control Program.
+   #. You will be using your third interface **(1.3)** for Network Failover and ConfigSync. This requires certain ports to be open on the Self IP; TCP port 4353 for ConfigSync, TCP port 1026 for Network Failover and TCP port 6699 for the Master Control Program.
 
-      i.  Build a new untagged VLAN **ha_vlan** on interface **1.3**
+      #.  Build a new untagged VLAN **ha_vlan** on interface **1.3**
 
-      ii. Add a self-IP address to the VLAN, **192.168.20.1** net mask
-          **255.255.255.0.**
+      #. Add a self-IP address to the VLAN, **192.168.20.1** net mask **255.255.255.0.**
 
-          1. Under **Port Lockdown**, select **Allow Default**, to open
-             ports required for HA communications.
+          #. Under **Port Lockdown**, select **Allow Default**, to open ports required for HA communications.
 
 #. Go to https://10.1.1.246 which is **BigIpB.f5agility.com** and login.
 
-    a. Bigip102 has already been licensed and provision. You will need to
-       set up the base networking.
+    #. Bigip102 has already been licensed and provision. You will need to set up the base networking.
 
 +---------------+-------------------+--------------+---------------+
 | **Interface** | **Untagged VLAN** | **Self IP**  | **Netmask**   |
@@ -48,61 +34,47 @@ high availability VLAN.
 | 1.3           | ha_vlan           | 192.168.20.2 | 255.255.255.0 |
 +---------------+-------------------+--------------+---------------+
 
-   b. Set **Port Lockdown** to **Allow Default**
+   #. Set **Port Lockdown** to **Allow Default**
 
-   c. Build the default gateway destination **0.0.0.0**, mask **0.0.0.0**,
-      gateway ip address **10.128.10.1**
+   #. Build the default gateway destination **0.0.0.0**, mask **0.0.0.0**, gateway ip address **10.128.10.1**
 
-   d. What is the status your BIG-IPs? Check the upper left-hand corner
-      next to the F5 ball.
+   #. What is the status your BIG-IPs? Check the upper left-hand corner next to the F5 ball.
 
 Configure HA
 ~~~~~~~~~~~~
 
-#. **On each BIG-IP**, prior to building the Device Trust, it is
-   recommended to renew the BIG-IP self-signed certificate with valid
-   information and regenerate the local Device Trust certificate
+#. **On each BIG-IP**, prior to building the Device Trust, it is recommended to renew the BIG-IP self-signed certificate with valid information and regenerate the local Device Trust certificate
 
-   a. Under **System >> Certificate Management >> Device Certificate
-      Management >> Device Certificate,** select the **Renew…** button
+   #. Under **System >> Certificate Management >> Device Certificate Management >> Device Certificate,** select the **Renew…** button
 
-      #. **Common Name**: <the Hostname of the BIG-IP in the upper left
-           corner>
+      #. **Common Name**: <the Hostname of the BIG-IP in the upper left corner>
 
       #.  **Country**: United States (or your country of preference)
 
       #.   **Lifetime**: 3650
 
-#. Lifetime is important. If your cert expires your HA setup
-   will fail
+#. Lifetime is important. If your cert expires your HA setup will fail
 
-   a.  Select **Finished**. Your browser will ask to exchange certs
-        with the BIG-IP again
+   #.  Select **Finished**. Your browser will ask to exchange certs with the BIG-IP again
 
-   b. Under **Device Management >> Device Trust >> Local Domain** select
-      **Reset Device Trust…**
+   #. Under **Device Management >> Device Trust >> Local Domain** select **Reset Device Trust…**
 
-      #. In the **Certificate Signing Authority** select **Generate New
-         Self-Signed Authority** and hit **Update**
+   #. In the **Certificate Signing Authority** select **Generate New Self-Signed Authority** and hit **Update**
 
-#. **On each BIG-IP** configure the device object failover parameters
-   the BIG-IP will send to other BIG-IPs that want to be a part of a
-   sync-only or sync-failover group
+#. **On each BIG-IP** configure the device object failover parameters the BIG-IP will send to other BIG-IPs that want to be a part of a sync-only or sync-failover group
 
-   a. Under **Device Management >> Devices**, select the local BIG-IP.
+   #. Under **Device Management >> Devices**, select the local BIG-IP.
       It will have the **(Self)** suffix.
 
-      #.  Under **Device Connectivity** on the top bar select:
+   #.  Under **Device Connectivity** on the top bar select:
 
-          1. **ConfigSync**
+   #. **ConfigSync**
 
-             a. Use the Self IP address of the HA VLAN for your **Local
-                Address**.
+   #. Use the Self IP address of the HA VLAN for your **Local Address**.
 
-      #. **Failover Network**
+   #. **Failover Network**
 
-#. In the **Failover Unicast Configuration** section select
-   the **Add** button
+#. In the **Failover Unicast Configuration** section select the **Add** button
 
 #. Use the Self IP address the HA VLAN for your **Address**
 
@@ -119,30 +91,23 @@ Configure HA
 
 #. On **bigip01.f5agility.com** build the Device Trust.
 
-   a. Under **Device Management >> Device Trust >> Device Trust
-      Members** and select **Add** to add other BIG-IP(s) you will
-      trust.
+   a. Under **Device Management >> Device Trust >> Device Trust Members** and select **Add** to add other BIG-IP(s) you will trust.
 
-      #. **Device IP Address**: <management IP address of the BIG-IP
-            to add>
+   #. **Device IP Address**: <management IP address of the BIG-IP to add>
 
-#. You could use any Self IP if the out-of-band management
-   interface is not configured.
+#. You could use any Self IP if the out-of-band management interface is not configured.
 
-   a.  Enter the Administrator Username and Password of the BIG-IP
-       you are trusting
+   a.  Enter the Administrator Username and Password of the BIG-IP you are trusting
 
    b.  Select **Retrieve Device Information**
 
-#. The certificate information and name from the other
-   BIG-IP should appear
+#. The certificate information and name from the other BIG-IP should appear
 
    a.   Select **Device Certificate Matches** to proceed
 
    b.  Select **Add Device**
 
-#. On each BIG-IP check the other BIG-IP in the **Device
-   Trust Members** list. **Is all the information there?**
+#. On each BIG-IP check the other BIG-IP in the **Device Trust Members** list. **Is all the information there?**
 
 ..
 
@@ -156,14 +121,11 @@ Configure HA
 
     b. What are the statuses of your BIG-IPs now?
 
-#. They should be **In Sync**. But wait! Although they show in
-   sync, only a **Sync-Only** group was created. We now need to
-   create a **Sync-Failover** group to facilitate failover.
+#. They should be **In Sync**. But wait! Although they show in sync, only a **Sync-Only** group was created. We now need to create a **Sync-Failover** group to facilitate failover.
 
 #. On BigIpA.f5agility.com create a new **Sync-Failover** device group
 
-   a. **Under Device Management >> Device Group** create a new device
-      group
+   a. **Under Device Management >> Device Group** create a new device group
 
       #.    **Name:** my-device-group
 
@@ -175,69 +137,49 @@ Configure HA
 
 #. Check **Device Groups** on each BIG-IP
 
-   a. Did you have to create the Device Group on the other
-      BIG-IP?
+   a. Did you have to create the Device Group on the other BIG-IP?
 
-#. Is the full configuration synchronized yet? (No! Only
-   the Device Group is sync’d)
+#. Is the full configuration synchronized yet? (No! Only the Device Group is sync’d)
 
    a. What is your sync status?
 
 #. It should be **Awaiting Initial Sync**
 
-    a. Click on the sync status or go to **Device Management >>
-       Overview** (or click on **Awaiting Initial** Sync) of the
-       BIG-IP with the **good/current** configuration
+   a. Click on the sync status or go to **Device Management >> Overview** (or click on **Awaiting Initial** Sync) of the BIG-IP with the **good/current** configuration
 
-    b. Click the device with the configuration you want to
-       synchronize. **Sync Options** should appear.
+   b. Click the device with the configuration you want to synchronize. **Sync Options** should appear.
 
-    c. **Synchronize to Group**. It could take up to 30 seconds
-       for synchronization to complete.
+   c. **Synchronize to Group**. It could take up to 30 seconds for synchronization to complete.
 
-#. NOTE: During the **Awaiting Initial Sync** phase either
-   BIG-IP can perform the synchronization and the other
-   BIG-IP will be overwritten.
+#. NOTE: During the **Awaiting Initial Sync** phase either BIG-IP can perform the synchronization and the other BIG-IP will be overwritten.
 
-#. What are the statuses of your BIG-IPs? Do you have an 
-   active-standby pair?
+#. What are the statuses of your BIG-IPs? Do you have an active-standby pair?
 
 #. Are the configurations the same?
 
-#. Now that you have created your HA environment, HA selections will
-   show up for SNAT addressed (not tied to your base network),
-   persistence profiles and connection mirroring on virtual servers.
+#. Now that you have created your HA environment, HA selections will show up for SNAT addressed (not tied to your base network), persistence profiles and connection mirroring on virtual servers.
 
    a. Go to your **Active** BIG-IP
 
-   b. Go to your persistence profile **my-src-persistence** and check
-      the **Mirror Persistence** box
+   b. Go to your persistence profile **my-src-persistence** and check the **Mirror Persistence** box
 
-   c. Go to your **www_vs** virtual server and set the **Default
-      Persistence Profile** to **my-src-persistence**
+   c. Go to your **www_vs** virtual server and set the **Default Persistence Profile** to **my-src-persistence**
 
    d. Synchronize your changes. Did the changes sync?
 
-   e. On each BIG-IP go to **Module Statistics > Local Traffic** and
-      bring up the persistence record statistics
+   e. On each BIG-IP go to **Module Statistics > Local Traffic** and bring up the persistence record statistics
 
-       #. Go to the home page of your www_vs web service
-          (http://10.1.10.100). Refresh a few times.
+       #. Go to the home page of your www_vs web service (http://10.1.10.100). Refresh a few times.
 
-       #. Check the persistence records on each of your BIG-IPs, you
-          should see the records are mirrored on each device
+       #. Check the persistence records on each of your BIG-IPs, you should see the records are mirrored on each device
 
-#. Go to **Device Management >> Traffic Groups**. As you can see the
-   default traffic group “\ **traffic-group-1**\ ” already exists.
+#. Go to **Device Management >> Traffic Groups**. As you can see the default traffic group “\ **traffic-group-1**\ ” already exists.
 
-   a. Select **traffic-group-1**. Check out the page information and
-      then select **Force to Standby**.
+   a. Select **traffic-group-1**. Check out the page information and then select **Force to Standby**.
 
-   b. What are the statuses of your BIG-IPs? Go to your web page. What
-      is the client IP?
+   b. What are the statuses of your BIG-IPs? Go to your web page. What is the client IP?
 
-   c. Go to your self-IP addresses. What traffic group are they in? What
-      does it mean?
+   c. Go to your self-IP addresses. What traffic group are they in? What does it mean?
 
    d. Archive your work.
 
