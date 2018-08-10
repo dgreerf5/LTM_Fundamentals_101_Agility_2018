@@ -396,10 +396,6 @@ Simple (Source Address) Persistence
       #. Take the shortcut directly to the **Resources** of the
          virtual server. (Can you find it?)
 
-**Note:** When we created the Virtual Server, everything was on a single
-page. We find when we return to modify the Virtual Server the Properties
-and Resources are on different pages.
-
    #. Set the **Default Persistence Profile** to **my-src-persist**.
 
       |image16|
@@ -427,12 +423,9 @@ and Resources are on different pages.
 
    #. At the prompt enter: **tmsh**
 
-   #. At the TMSH prompt enter the command in the **Persistence Value**
-      GUI.
+   #. At the TMSH prompt enter the command in the **Persistence Value** GUI.
 
-      #. **modify sys db
-         ui.statistics.modulestatistics.localtraffic.persistencerecords
-         value true**
+      #. **modify sys db ui.statistics.modulestatistics.localtraffic.persistencerecords value true**
 
          #. Tab completion will make this a little easier
 
