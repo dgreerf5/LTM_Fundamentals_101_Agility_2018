@@ -169,6 +169,6 @@ Troubleshoot using TCPDump or Curl.
    <meta http-equiv="Content-Type" content="text/html; charset=us-ascii"
    />
 
-   #. The server is responding to the BIG-IP when directly connected, but not through the virtual server. Sounds like the server is routing around the BIG-IP, which means the BIG-IP is **not** the default gateway.
+#. The server is responding to the BIG-IP when directly connected, but not through the virtual server. Sounds like the server is routing around the BIG-IP, which means the BIG-IP is **not** the default gateway.
 
 #. Turn **SNAT Automap** back on the **www_vs** virtual server
