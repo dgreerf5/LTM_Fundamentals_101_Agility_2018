@@ -139,35 +139,34 @@ Troubleshoot using TCPDump or Curl.
 
    #. “-i” to dump the HTTP header information also
 
-      ..
+      .. code-block:: bash
 
-   [root@bigip249:Active:Standalone] config # curl -i 10.1.20.11
+         [root@bigip249:Active:Standalone] config # curl -i 10.1.20.11
 
-   HTTP/1.1 200 OK
+          HTTP/1.1 200 OK
 
-   Date: Sat, 26 Jul 2014 19:25:28 GMT
+          Date: Sat, 26 Jul 2014 19:25:28 GMT
 
-   Server: Apache/2.2.22 (Ubuntu)
+          Server: Apache/2.2.22 (Ubuntu)
 
-   X-Powered-By: PHP/5.4.9-4ubuntu2.2
+          X-Powered-By: PHP/5.4.9-4ubuntu2.2
 
-   Vary: Accept-Encoding
+          Vary: Accept-Encoding
 
-   Content-Length: 3819
+          Content-Length: 3819
 
-   Connection: close
+          Connection: close
 
-   Content-Type: text/html
+          Content-Type: text/html
 
-   <html>
+          <html>
 
-   <head>
+          <head>
 
-   <TITLE>Using virtual server 10.1.20.11 and pool member 10.1.20.11
-   (Node #1)</TITLE>
+          <TITLE>Using virtual server 10.1.20.11 and pool member 10.1.20.11 (Node #1)</TITLE>
 
-   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii"
-   />
+          <meta http-equiv="Content-Type" content="text/html; charset=us-ascii"
+          />
 
 #. The server is responding to the BIG-IP when directly connected, but not through the virtual server. Sounds like the server is routing around the BIG-IP, which means the BIG-IP is **not** the default gateway.
 
