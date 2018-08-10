@@ -13,89 +13,86 @@ Creating VLANs
    (**client_vlan**) and one server-side VLAN (**server_vlan)** for the
    devices in your network.
 
-1. From the sidebar select **Network** **>> VLANs** then select
-   **Create**
+#. From the sidebar select **Network** **>> VLANs** then select **Create**
 
 |image0|
 
-a. Under **General Properties**:
+   #. Under **General Properties**:
 
-   i. **Name**: client_vlan
+      #. **Name**: client_vlan
 
-b. The name is for management purposes only, you could name them after
-   your children or pets
+   #. The name is for management purposes only, you could name them after your children or pets
 
-   ii. **Tag**: <leave blank>
+      #. **Tag**: <leave blank>
 
-       1. Entering a tag is only required for “\ **Tagged**\ ” (802.1q)
+         #. Entering a tag is only required for “\ **Tagged**\ ” (802.1q)
           interfaces. “\ **Untagged**\ ” interfaces will automatically
           get a tag which is used for internal L2 segmentation of
           traffic.
 
-c. Under **Resources** in the **Interfaces** section:
+   #. Under **Resources** in the **Interfaces** section:
 
-   iii. **Interface**: 1.1
+      #. **Interface**: 1.1
 
-   iv.  **Tagging**: Untagged
+      #. **Tagging**: Untagged
 
-   v.   Select the **Add** button. Leave all other items at the default
+      #. Select the **Add** button. Leave all other items at the default
         setting.
 
 ..
 
    |image1|
 
-vi. When you have completed your VLAN configuration, hit the
-    **Finished** button
+      #. When you have completed your VLAN configuration, hit the **Finished** button
 
 Create another untagged VLAN named **server_vlan** on interface **1.2.**
 
 Assigning a Self IP addresses to your VLANs
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Go to **Network >> Self IPs**, select **Create**.
-
-|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML51055f77.PNG|
-
-d. Create a new self IP, for the **server_vlan** and **client_vlan**
-   VLANs. In **Network >> Self IPs >> New Self IP**, under
-   **Configuration** enter:
+#. Go to **Network >> Self IPs**, select **Create**.
 
 ..
 
-   **Server-Side Client-side**
+   |image15|
 
-vii.  **Name**: server_ip client_ip
+   #. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
-viii. **IP Address**: 10.1.20.245 10.1.10.245
+..
 
-ix.   **Netmask**: 255.255.255.0 255.255.255.0
+                             **Server-Side                     Client-side**
 
-x.    **VLAN**: server_vlan client_vlan
+   #. **Name**:               server_ip                        client_ip
 
-xi.   **Port** **Lockdown**: Allow None Allow None
+   #. **IP Address**:         10.1.20.245                      10.1.10.245
 
-      2. The default “\ **Allow** **None**\ ” means the Self IP would
+   #. **Netmask**:           255.255.255.0                    255.255.255.0
+
+   #. **VLAN**:              server_vlan                       client_vlan
+
+   #. **Port** **Lockdown**:  Allow None                        Allow None
+
+      #. The default “\ **Allow** **None**\ ” means the Self IP would
          respond only to ICMP.
-
-      3. The “\ **Allow** **Defaults**\ ” selection opens the following
+   
+      #. The “\ **Allow** **Defaults**\ ” selection opens the following
          on the self IP of the VLAN
 
-         a. TCP: ssh, domain, snmp, https
+         #. TCP: ssh, domain, snmp, https
 
-         b. TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
+         #. TCP: 4353, 6699 (for F5 protocols, such as HA and iQuery)
 
-         c. UDP: 520, cap, domain, f5-iquery, snmp
+         #. UDP: 520, cap, domain, f5-iquery, snmp
 
-         d. PROTOCOL: ospf
+         #. PROTOCOL: ospf
 
-      4. **NOTE:** Even with **“Allow None”** chosen, traffic destined
+      #. **NOTE:** Even with **“Allow None”** chosen, traffic destined
          for a virtual server or object on the F5 (e.g. NAT) are able to
          pas through without issue as any object created on the F5 is by
          default allowed to pass through.
 
-e. When you have completed your self-IP configuration, hit the |image3|
-   button. You should have something similar to the following
+   #. When you have completed your self-IP configuration, hit the |image3|
+      button. You should have something similar to the following
 
 |image4|
 
@@ -199,7 +196,7 @@ Now let’s build our virtual server
 1. Under **Local Traffic** >> **Virtual Servers**, click the **“+”**
    icon
 
-|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML5118b969.PNG|
+|image9|
 
 m. Under **General Properties**
 
@@ -233,7 +230,7 @@ n. Under **Configurations**
 
 ..
 
-   |C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML58387b2.PNG|
+   |image10|
 
 o. Under **Resources**
 
@@ -352,7 +349,7 @@ Network Diagram for the address.
 
    a. Go to **Statistics>Dashboard**
 
-|C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML59e5bf2.PNG|
+|image14|
 
 8. Click the Big Red F5 ball. This will take you to the Welcome page.
    Here you can find links to:
@@ -387,10 +384,10 @@ Network Diagram for the address.
 .. |image8| image:: media/image8.png
    :width: 4.375in
    :height: 1.27287in
-.. |C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML5118b969.PNG| image:: media/image9.png
+.. |image9| image:: media/image9.png
    :width: 3.71994in
    :height: 3.08333in
-.. |C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML58387b2.PNG| image:: media/image10.png
+.. |image10| image:: media/image10.png
    :width: 2.97587in
    :height: 0.99517in
 .. |image11| image:: media/image11.png
@@ -402,6 +399,9 @@ Network Diagram for the address.
 .. |image13| image:: media/image13.png
    :width: 5.68925in
    :height: 2.7588in
-.. |C:\Users\RASMUS~1\AppData\Local\Temp\SNAGHTML59e5bf2.PNG| image:: media/image14.png
+.. |image14| image:: media/image14.png
+   :width: 4.31269in
+   :height: 2.5in
+.. |image15| image:: media/module_2_1.png
    :width: 4.31269in
    :height: 2.5in
