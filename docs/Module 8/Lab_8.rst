@@ -10,19 +10,19 @@ You will be creating a high availability cluster using the second BIG-IP **(bigi
 
 #. On **BigIpA.f5agility.com** archive your configuration in case you need to revert
 
-   #. Go to **System >> Archives** and create a new archive.
+#. Go to **System >> Archives** and create a new archive.
 
-   #. You will be using your third interface **(1.3)** for Network Failover and ConfigSync. This requires certain ports to be open on the Self IP; TCP port 4353 for ConfigSync, TCP port 1026 for Network Failover and TCP port 6699 for the Master Control Program.
+#. You will be using your third interface **(1.3)** for Network Failover and ConfigSync. This requires certain ports to be open on the Self IP; TCP port 4353 for ConfigSync, TCP port 1026 for Network Failover and TCP port 6699 for the Master Control Program.
 
-      #.  Build a new untagged VLAN **ha_vlan** on interface **1.3**
+   a.  Build a new untagged VLAN **ha_vlan** on interface **1.3**
 
-      #. Add a self-IP address to the VLAN, **192.168.20.1** net mask **255.255.255.0.**
+   b. Add a self-IP address to the VLAN, **192.168.20.1** net mask **255.255.255.0.**
 
-          #. Under **Port Lockdown**, select **Allow Default**, to open ports required for HA communications.
+   c. Under **Port Lockdown**, select **Allow Default**, to open ports required for HA communications.
 
 #. Go to https://10.1.1.246 which is **BigIpB.f5agility.com** and login.
 
-    #. Bigip102 has already been licensed and provision. You will need to set up the base networking.
+#. Bigip102 has already been licensed and provision. You will need to set up the base networking.
 
 +---------------+-------------------+--------------+---------------+
 | **Interface** | **Untagged VLAN** | **Self IP**  | **Netmask**   |
@@ -34,45 +34,45 @@ You will be creating a high availability cluster using the second BIG-IP **(bigi
 | 1.3           | ha_vlan           | 192.168.20.2 | 255.255.255.0 |
 +---------------+-------------------+--------------+---------------+
 
-   #. Set **Port Lockdown** to **Allow Default**
+#. Set **Port Lockdown** to **Allow Default**
 
-   #. Build the default gateway destination **0.0.0.0**, mask **0.0.0.0**, gateway ip address **10.128.10.1**
+#. Build the default gateway destination **0.0.0.0**, mask **0.0.0.0**, gateway ip address **10.128.10.1**
 
-   #. What is the status your BIG-IPs? Check the upper left-hand corner next to the F5 ball.
+#. What is the status your BIG-IPs? Check the upper left-hand corner next to the F5 ball.
 
 Configure HA
 ~~~~~~~~~~~~
 
 #. **On each BIG-IP**, prior to building the Device Trust, it is recommended to renew the BIG-IP self-signed certificate with valid information and regenerate the local Device Trust certificate
 
-   #. Under **System >> Certificate Management >> Device Certificate Management >> Device Certificate,** select the **Renew…** button
+#. Under **System >> Certificate Management >> Device Certificate Management >> Device Certificate,** select the **Renew…** button
 
-      #. **Common Name**: <the Hostname of the BIG-IP in the upper left corner>
+      a. **Common Name**: <the Hostname of the BIG-IP in the upper left corner>
 
-      #.  **Country**: United States (or your country of preference)
+      b.  **Country**: United States (or your country of preference)
 
-      #.   **Lifetime**: 3650
+      c.   **Lifetime**: 3650
 
 #. Lifetime is important. If your cert expires your HA setup will fail
 
-   #.  Select **Finished**. Your browser will ask to exchange certs with the BIG-IP again
+#.  Select **Finished**. Your browser will ask to exchange certs with the BIG-IP again
 
-   #. Under **Device Management >> Device Trust >> Local Domain** select **Reset Device Trust…**
+#. Under **Device Management >> Device Trust >> Local Domain** select **Reset Device Trust…**
 
-   #. In the **Certificate Signing Authority** select **Generate New Self-Signed Authority** and hit **Update**
+#. In the **Certificate Signing Authority** select **Generate New Self-Signed Authority** and hit **Update**
 
 #. **On each BIG-IP** configure the device object failover parameters the BIG-IP will send to other BIG-IPs that want to be a part of a sync-only or sync-failover group
 
-   #. Under **Device Management >> Devices**, select the local BIG-IP.
+   a. Under **Device Management >> Devices**, select the local BIG-IP.
       It will have the **(Self)** suffix.
 
-   #.  Under **Device Connectivity** on the top bar select:
+   b.  Under **Device Connectivity** on the top bar select:
 
-   #. **ConfigSync**
+   c. **ConfigSync**
 
-   #. Use the Self IP address of the HA VLAN for your **Local Address**.
+   d. Use the Self IP address of the HA VLAN for your **Local Address**.
 
-   #. **Failover Network**
+   e. **Failover Network**
 
 #. In the **Failover Unicast Configuration** section select the **Add** button
 
@@ -82,7 +82,7 @@ Configure HA
 
 #. **Note:** Multicast is for Viprion chassis’ only
 
-   a. **Mirroring**
+#. **Mirroring**
 
 #. **Primary Local Mirror Address**: use the Self IP address
    of the HA VLAN for your
@@ -113,13 +113,13 @@ Configure HA
 
    |image0|
 
-    a. If some information is missing delete the trust and try again
+#. If some information is missing delete the trust and try again
 
 ..
 
    |image1|
 
-    b. What are the statuses of your BIG-IPs now?
+#. What are the statuses of your BIG-IPs now?
 
 #. They should be **In Sync**. But wait! Although they show in sync, only a **Sync-Only** group was created. We now need to create a **Sync-Failover** group to facilitate failover.
 
@@ -127,21 +127,21 @@ Configure HA
 
    a. **Under Device Management >> Device Group** create a new device group
 
-      #.    **Name:** my-device-group
+   #.    **Name:** my-device-group
 
-      #.   **Group Type**: Sync-Failover
+   #.   **Group Type**: Sync-Failover
 
-      #.  Add the members of the group to the **Includes** box
+   #.  Add the members of the group to the **Includes** box
 
-      #. Check the **Network Failover** setting for the group
+   #. Check the **Network Failover** setting for the group
 
 #. Check **Device Groups** on each BIG-IP
 
-   a. Did you have to create the Device Group on the other BIG-IP?
+#. Did you have to create the Device Group on the other BIG-IP?
 
 #. Is the full configuration synchronized yet? (No! Only the Device Group is sync’d)
 
-   a. What is your sync status?
+#. What is your sync status?
 
 #. It should be **Awaiting Initial Sync**
 
@@ -157,7 +157,7 @@ Configure HA
 
 #. Are the configurations the same?
 
-#. Now that you have created your HA environment, HA selections will show up for SNAT addressed (not tied to your base network), persistence profiles and connection mirroring on virtual servers.
+#. Now that you have created your HA environment, HA selections will show up for SNAT addresses (not tied to your base network), persistence profiles and connection mirroring on virtual servers.
 
    a. Go to your **Active** BIG-IP
 
@@ -169,9 +169,9 @@ Configure HA
 
    e. On each BIG-IP go to **Module Statistics > Local Traffic** and bring up the persistence record statistics
 
-       #. Go to the home page of your www_vs web service (http://10.1.10.100). Refresh a few times.
+   f. Go to the home page of your www_vs web service (http://10.1.10.100). Refresh a few times.
 
-       #. Check the persistence records on each of your BIG-IPs, you should see the records are mirrored on each device
+   g. Check the persistence records on each of your BIG-IPs, you should see the records are mirrored on each device
 
 #. Go to **Device Management >> Traffic Groups**. As you can see the default traffic group “\ **traffic-group-1**\ ” already exists.
 
