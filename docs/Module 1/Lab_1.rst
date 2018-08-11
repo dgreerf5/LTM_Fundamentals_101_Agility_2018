@@ -27,14 +27,14 @@ Access the Lab Environment
 
       |image1|
 
-   #. Find the Xunbutu jumpbox in the list of applications and select
-   console to access the jumpbox via the browser. Alternately you can
-   use the IP address associated with the jumpbox to access it via RDP.
+   #.Find the Xunbutu jumpbox in the list of applications and select
+     console to access the jumpbox via the browser. Alternately you can
+     use the IP address associated with the jumpbox to access it via RDP.
 
       |image2|
 
    #. Access the **xbun-jumpbox** using the **Console** (watch for pop-up
-   blockers)
+      blockers)
 
       #. User: **f5student**
 
