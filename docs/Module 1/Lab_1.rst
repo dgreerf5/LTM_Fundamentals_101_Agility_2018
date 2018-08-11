@@ -15,7 +15,7 @@ Access the Lab Environment
    #. Using the IP address supplied by the instructor log on to the
       training portal
 
-      #. i.	http://<ip_address_supplied_by_instructor/
+      #.	http://<ip_address_supplied_by_instructor/
 
 ..
 
