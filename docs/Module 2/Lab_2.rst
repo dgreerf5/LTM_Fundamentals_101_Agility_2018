@@ -51,7 +51,9 @@ Go to **Network >> Self IPs**, select **Create**.
 
 |image15|
 
-#. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
+#. Create a new self IP, for the **server_vlan** and **client_vlan** VLANs. 
+
+   #. In **Network >> Self IPs >> New Self IP**, under **Configuration** enter:
 
 ::
 
@@ -69,11 +71,9 @@ Go to **Network >> Self IPs**, select **Create**.
 
 \
 
-   #. The default “\ **Allow** **None**\ ” means the Self IP would
-      respond only to ICMP.
+The default “\ **Allow** **None**\ ” means the Self IP would respond only to ICMP.
    
-   #. The “\ **Allow** **Defaults**\ ” selection opens the following
-      on the self IP of the VLAN
+   #. The “\ **Allow** **Defaults**\ ” selection opens the following on the self IP of the VLAN
 
       #. TCP: ssh, domain, snmp, https
 
