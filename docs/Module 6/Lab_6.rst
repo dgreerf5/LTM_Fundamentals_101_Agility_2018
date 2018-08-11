@@ -1,100 +1,80 @@
 Lab 6: BIG-IP Policies and iRules
 =================================
 
-When clients attempt to access your **secure_vs**, you don’t want them
-to have to remember to type HTTPS before the web site, but you also
-don’t want to open port 80 (HTTP) on your web servers as that is just
-asking for trouble. To avoid this issue, you will be creating an HTTP
-virtual server that will redirect HTTP to HTTPS and the **secure_vs**.
-Also, you will write an iRule and a BIG-IP policy that will retrieve
-images from a different pool of servers than the default pool attached
-to the virtual server. This will give you a simple comparison between
-the two methods. You will use a policy on the HTTP server and an iRule
-on the HTTPS virtual server.
+When clients attempt to access your **secure_vs**, you don’t want them to have to remember to type HTTPS before the web site, but you also don’t want to open port 80 (HTTP) on your web servers as that is just asking for trouble. To avoid this issue, you will be creating an HTTP virtual server that will redirect HTTP to HTTPS and the **secure_vs**.
+
+Also, you will write an iRule and a BIG-IP policy that will retrieve images from a different pool of servers than the default pool attached to the virtual server.  This will give you a simple comparison between the two methods. You will use a policy on the HTTP server and an iRule on the HTTPS virtual server.
 
 Using the Built-in https_redirect iRule
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. While it would be easy to write your own redirect iRule, note that F5
-   has one prebuilt that you can use
+#. While it would be easy to write your own redirect iRule, note that F5 has one prebuilt that you can use
 
    a. Example of simple redirect iRule:
 
-..
+      .. code-block:: tcl
 
-   **when HTTP_REQUEST {**
+         **when HTTP_REQUEST {
+            HTTP::redirect https://[HTTP::host][HTTP::uri]
+         }
 
-   **HTTP::redirect https://[HTTP::host][HTTP::uri]**
+#. Go to **Local Traffic >> iRules**
 
-   **}**
+   a. In the search box at the top of the list of iRules, type **redirect** and hit **Search.**
 
-2. Go to **Local Traffic >> iRules**
+      .. image:: media/image1.png
+         :width: 7.78919in
+         :height: 0.85714in
 
-   b. In the search box at the top of the list of iRules, type
-      **redirect** and hit **Search.**
+   #. Open the iRule and take a quick look. This is an F5 Verified and supported iRule.
 
-|image0|
+#. Create your HTTP-to-HTTPS redirect virtual server.
 
-c. Open the iRule and take a quick look. This is an F5 Verified and
-   supported iRule.
+#. Go to **Local Traffic >> Virtual Servers** and create a new virtual server.
 
-3. Create your HTTP-to-HTTPS redirect virtual server.
+   a. **Name:** redirect_to_secure_vs
 
-   a. Go to **Local Traffic >> Virtual Servers** and create a new
-      virtual server.
+   #. **Destination:** <same IP as secure_vs>
 
-      i.   **Name:** redirect_to_secure_vs
+   #. **Service Port:** 80 (HTTP)
 
-      ii.  **Destination:** <same IP as secure_vs>
+   #. **Source Address Translation:** None <you don’t need this as this traffic is going nowhere>
 
-      iii. **Service Port:** 80 (HTTP)
+   #. **iRule:** **\_**\ sys_https_redirect
 
-      iv.  **Source Address Translation:** None <you don’t need this as
-           this traffic is going nowhere>
+   #. Hit **Finished**
 
-      v.   **iRule:** **\_**\ sys_https_redirect
+   #. **WOW!** That didn’t go too far did it. You just got an error. If you are going to redirect the HTTP request, you need the HOST and URI information and that requires the HTTP protocol
 
-      vi.  Hit **Finished**
-
-           1. **WOW!** That didn’t go too far did it. You just got an
-              error. If you are going to redirect the HTTP request, you
-              need the HOST and URI information and that requires the
-              HTTP protocol
-
-   b. In the **Configuration** section make sure the default **http**
+   #. In the **Configuration** section make sure the default **http**
       profile is added to the virtual server
 
-   c. HTTP Profile: **http**
+   #. HTTP Profile: **http**
 
-   d. Select **Finished**
+   #. Select **Finished**
 
-1. Test your policy by going to **http://<ip address of your virtual>**
+#. Test your policy by going to **http://<ip address of your virtual>**
 
-   e. You should be redirected to the HTTPS virtual server
+   a. You should be redirected to the HTTPS virtual server
 
-   f. As you can see, very small iRules can make a very big difference
+   #. As you can see, very small iRules can make a very big difference
 
 Use a BIG-IP Policy to retrieve images from a different pool 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. **Create** a new pool named **image_pool**, use the **http** monitor
-   for status, and add one member **10.1.20.14:80**
+#. **Create** a new pool named **image_pool**, use the **http** monitor for status, and add one member **10.1.20.14:80**
 
-2. First you will create your policy container and set your match
-   strategy
+#. First you will create your policy container and set your match strategy
 
-   g. Try to do this using the instructions, but a screen shot of the
-      policy is available in the **Appendix** at the end of the lab
-      guide if you would like it
+   g. Try to do this using the instructions, but a screen shot of the policy is available in the **Appendix** at the end of the lab guide if you would like it
 
-3. Go to **Local Traffic >> Policies : Policy List** and select
-   **Create**
+#. Go to **Local Traffic >> Policies : Policy List** and select **Create**
 
-   h. **Policy_Name:** access_image_pool
+   a. **Policy_Name:** access_image_pool
 
-   i. **Strategy:** Execute **first** matching rule
+   #. **Strategy:** Execute **first** matching rule
 
-   j. **Create Policy**
+   #. **Create Policy**
 
 ..
 
