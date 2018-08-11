@@ -27,7 +27,7 @@ Access the Lab Environment
 
       |image1|
 
-   #.Find the Xunbutu jumpbox in the list of applications and select
+   #. Find the Xunbutu jumpbox in the list of applications and select
      console to access the jumpbox via the browser. Alternately you can
      use the IP address associated with the jumpbox to access it via RDP.
 
@@ -46,8 +46,7 @@ Access the Lab Environment
 
       #. User: **admin**
 
-      #. Nomenclature for GUI navigation begins on the side-bar and then
-      goes to the pop-up or top-bar.
+      #. Nomenclature for GUI navigation begins on the side-bar and then goes to the pop-up or top-bar.
 
          |image3| 
 
