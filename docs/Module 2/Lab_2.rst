@@ -66,6 +66,7 @@ Go to **Network >> Self IPs**, select **Create**.
       **VLAN**:              server_vlan                       client_vlan
 
       **Port** **Lockdown**:  Allow None                        Allow None
+
 \
 
    #. The default “\ **Allow** **None**\ ” means the Self IP would

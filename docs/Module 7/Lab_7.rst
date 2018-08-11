@@ -75,7 +75,7 @@ Troubleshoot using TCPDump or Curl.
 
    #. Go to your browser and attempt to access the virtual server. You should see something like this:
 
-      .. code-block:: bash
+      .. code-block:: console
 
          17:38:40.051122 IP **10.1.10.1**.43932 > 10.1.10.245.http: S
          522853636:522853636(0) win 8192 <mss 1460,nop,wscale
