@@ -14,7 +14,7 @@ Using the Built-in https_redirect iRule
 
       .. code-block:: tcl
 
-         **when HTTP_REQUEST {
+         when HTTP_REQUEST {
             HTTP::redirect https://[HTTP::host][HTTP::uri]
          }
 
@@ -66,7 +66,7 @@ Use a BIG-IP Policy to retrieve images from a different pool
 
 #. First you will create your policy container and set your match strategy
 
-   g. Try to do this using the instructions, but a screen shot of the policy is available in the **Appendix** at the end of the lab guide if you would like it
+   a. Try to do this using the instructions, but a screen shot of the policy is available in the **Appendix** at the end of the lab guide if you would like it
 
 #. Go to **Local Traffic >> Policies : Policy List** and select **Create**
 
@@ -76,129 +76,91 @@ Use a BIG-IP Policy to retrieve images from a different pool
 
    #. **Create Policy**
 
-..
+      .. image:: media/image2.png
+         :width: 3.71849in
+         :height: 1.89076in
 
-   |image1|
+#. Now you can create/view policy rules by selecting **Create**
 
-4. Now you can create/view policy rules by selecting **Create**
+   a. **Name:** get_jpegs
 
-   k. **Name:** get_jpegs
+   #. In the box under **Match all of the following conditions:** select the |image2| to the right of **All Traffic**
 
-   l. In the box under **Match all of the following conditions:** select
-      the |image2| to the right of **All Traffic**
+   #.  Use the drop-down menus to look at the **HTTP URI** and check if it **ends_with** an image type
 
-      vii.  Use the drop-down menus to look at the **HTTP URI** and
-            check if it **ends_with** an image type
+   #. Look for JPEGs by adding **jpg** in the box under the **any of** box and selecting **Add**
 
-      viii. Look for JPEGs by adding **jpg** in the box under the **any
-            of** box and selecting **Add**
+      .. image:: media/image4.png
+         :width: 7.5in
+         :height: 0.55208in
 
-|image3|
+   #. Under **Do the following when the traffic is** matched, build the following operation.
 
-m. Under **Do the following when the traffic is** matched, build the
-   following operation.
+   #. **Forward Traffic** to the **pool** named **image_pool**
 
-   ix. **Forward Traffic** to the **pool** named **image_pool**
+   #. **Save**
 
-n. **Save**
+      .. image:: media/image5.png
+         :width: 4.19936in
+         :height: 2.52101in
 
-..
+#. The policy is saved in **Draft** form and is not available until **Published**. To publish the policy:
 
-   |image4|
+   a. Select the **Save Draft Policy** drop-down menu and select **Save and Publish Policy**
 
-5. The policy is saved in **Draft** form and is not available until
-   **Published**. To publish the policy:
+      .. image:: media/image6.png
+         :width: 1.5276in
+         :height: 0.9916in
 
-   o. Select the **Save Draft Policy** drop-down menu and select **Save
-      and Publish Policy**
+#. Go to the **Resources** section of your **www_vs** virtual server and select **Managed** over the **Policies** box
 
-|image5|
+#. Move **access_image_pool** for the **Available** box to the **Enabled** box
 
-6. Go to the **Resources** section of your **www_vs** virtual server and
-   select **Managed** over the **Policies** box
+   .. image:: media/image7.png
+      :width: 4.50581in
+      :height: 2.0084in
 
-   p. Move **access_image_pool** for the **Available** box to the
-      **Enabled** box
+#. Now test your change by browsing to http://10.1.10.100
 
-|image6|
+   a. If your policy is working correctly, all of the images under **F5 Platform List** should be from **NODE #4**
 
-7. Now test your change by browsing to http://10.1.10.100
+   b. Other images are PNG images and have a different extension
 
-   q. If your policy is working correctly, all of the images under **F5
-      Platform List** should be from **NODE #4**
-
-   r. Other images are PNG images and have a different extension
-
-|image7|
+      .. image:: media/image8.png
+         :width: 4.42946in
+         :height: 3.80833in
 
 Use an iRule to Retrieve Images From a Different Pool 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-1. Now you will use an iRule to perform the same image retrieval. Your
-   **image_pool** is already created
+#. Now you will use an iRule to perform the same image retrieval. Your **image_pool** is already created
 
-2. Go to **Local Traffic >> iRules** and select **Create**
+#. Go to **Local Traffic >> iRules** and select **Create**
 
    a. **Name:** access_image_pool
 
    b. In the **Definition** section enter the following:
 
-..
+      .. image:: media/image9.png
+         :width: 6.48958in
+         :height: 2.20843in
 
-   |image8|
+   c. This activity is not meant to be “cut and paste”. We want you to get comfortable and familiar with typing iRules inside the GUI.
 
-c. This activity is not meant to be “cut and paste”. We want you to get
-   comfortable and familiar with typing iRules inside the GUI.
+   d. Try hovering the cursor over a command or event, such as, **HTTP_REQUEST** or **HTTP:uri**. You will see a definition of the item. For example:
 
-   i. Try hovering the cursor over a command or event, such as,
-      **HTTP_REQUEST** or **HTTP:uri**. You will see a definition of the
-      item. For example:
+      .. image:: media/image10.png
+         :width: 4.98783in
+         :height: 2.08333in
 
-..
+#. Save your iRule and go to the **Resources** section of your **secure_vs** and select **iRules >>** Manage
 
-   |image9|
+   a. Move your **access_image_pool** iRule into the **Enabled** box
 
-3. Save your iRule and go to the **Resources** section of your
-   **secure_vs** and select **iRules >>** Manage
+#. Test your **secure_vs** virtual by going to **https://10.1.10.105**
 
-   d. Move your **access_image_pool** iRule into the **Enabled** box
+   a. The results should be the same as before
 
-4. Test your **secure_vs** virtual by going to **https://10.1.10.105**
+#. **Extra Credit!** Change both the policy and iRule to access the **image_pool** for **png** file types
 
-   e. The results should be the same as before
-
-5. **Extra Credit!** Change both the policy and iRule to access the
-   **image_pool** for **png** file types
-
-   f. You should notice one is easier to update than the other
-
-.. |image0| image:: media/image1.png
-   :width: 7.78919in
-   :height: 0.85714in
-.. |image1| image:: media/image2.png
-   :width: 3.71849in
-   :height: 1.89076in
-.. |image2| image:: media/image3.png
-   :width: 0.25836in
-   :height: 0.21669in
-.. |image3| image:: media/image4.png
-   :width: 7.5in
-   :height: 0.55208in
-.. |image4| image:: media/image5.png
-   :width: 4.19936in
-   :height: 2.52101in
-.. |image5| image:: media/image6.png
-   :width: 1.5276in
-   :height: 0.9916in
-.. |image6| image:: media/image7.png
-   :width: 4.50581in
-   :height: 2.0084in
-.. |image7| image:: media/image8.png
-   :width: 4.42946in
-   :height: 3.80833in
-.. |image8| image:: media/image9.png
-   :width: 6.48958in
-   :height: 2.20843in
-.. |image9| image:: media/image10.png
-   :width: 4.98783in
-   :height: 2.08333in
+   a. You should notice one is easier to update than the other
