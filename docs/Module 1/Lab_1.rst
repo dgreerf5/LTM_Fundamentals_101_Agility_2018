@@ -10,12 +10,12 @@ Access the Lab Environment
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 #. Using Firefox or Chrome open a connection to the training portal
-   supplied by the instructor \
+   supplied by the instructor
 
    #. Using the IP address supplied by the instructor log on to the
-      training portal \
+      training portal
 
-      #.	http://<ip_address_supplied_by_instructor/ \
+      #.	http://<ip_address_supplied_by_instructor/
 
          |image0|
 
