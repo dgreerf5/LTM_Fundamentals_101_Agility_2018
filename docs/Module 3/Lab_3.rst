@@ -238,7 +238,7 @@ its basic authentication capabilities.
       the **Configuration** section
 
       #.  **Send String**: Enter the command to retrieve the page you
-          want **“GET /basic/\r\n”** (no quotes)
+          want **“GET /basic/\r\\n"** (no quotes)
 
       #. In the Receive String box put “\ **200 OK**\ ” (no quotes)
 
